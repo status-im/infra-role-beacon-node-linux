@@ -1,0 +1,20 @@
+---
+- name: Create user for beacon node builds
+  user:
+    name: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    shell: '/bin/bash'
+    create_home: false
+
+- name: Set disable rebase as merge strategy
+  git_config:
+    scope: 'global'
+    name: 'pull.rebase'
+    value: 'false'
+  become_user: '{{ beacon_node_user }}'
+
+- name: Sudoers file to let non-root users start jobs
+  template:
+    src: 'builds_sudoers.j2'
+    dest: '/etc/sudoers.d/80-beacon-node-builds'
+    mode: 0440

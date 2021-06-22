@@ -1,0 +1,41 @@
+---
+- name: Clone repo branch
+  git:
+    repo: '{{ beacon_node_repo_url }}'
+    version: '{{ beacon_node_repo_branch }}'
+    dest: '{{ beacon_node_repo_path }}'
+    force: true
+    # Normally we don't update or timer might miss some changes.
+    # update: '{{ item.get("update", false) }}'
+  become_user: '{{ beacon_node_user }}'
+
+- name: Create build script
+  template:
+    src: 'build.sh.j2'
+    dest: '{{ beacon_node_build_script_path }}'
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    mode: 0775
+
+- name: Run build script
+  shell: '{{ beacon_node_build_script_path }}'
+  become_user: '{{ beacon_node_user }}'
+  async: 3600 # max allowed time in seconds
+  poll: 10 # polling interval in seconds
+  args:
+    chdir: '{{ beacon_node_path }}'
+
+- name: Create timer for build script
+  include_role: name=systemd-timer
+  vars:
+    systemd_timer_name: '{{ beacon_node_service_name }}-build'
+    systemd_timer_user: '{{ beacon_node_user }}'
+    systemd_timer_group: '{{ beacon_node_group }}'
+    systemd_timer_description: 'Build {{ beacon_node_service_name }}'
+    systemd_timer_start_on_creation: false
+    systemd_timer_consul_warning: true
+    systemd_timer_enabled: '{{ beacon_node_build_timer_enabled }}'
+    systemd_timer_frequency: '{{ beacon_node_build_frequency }}'
+    systemd_timer_timeout_sec: '{{ beacon_node_build_timer_timeout }}'
+    systemd_timer_work_dir: '{{ beacon_node_path }}'
+    systemd_timer_script_path: '{{ beacon_node_build_script_path }}'

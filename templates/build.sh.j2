@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+set -e
+
+function headIsDetached() {
+    [[ $(git rev-parse --abbrev-ref --symbolic-full-name HEAD) == "HEAD" ]];
+}
+
+function binaryExists() {
+    ls -l build/{{ beacon_node_build_targets | first }}_${COMMIT} 2>&1 1>/dev/null
+}
+
+function fetchChanges() {
+    # We cannot use "git pull" in here, because history may be changed upstream
+    git fetch
+    git reset --hard "origin/${BRANCH}"
+}
+
+function buildBinaries() {
+    # Lower CPU and I/O priority so it doesn't affect the running beacon node
+    NICE="nice -n 19 ionice -c2 -n7"
+
+    ${NICE} make -j6 update
+    ${NICE} make -j6 {{ beacon_node_build_targets | join(" ") }} \
+        LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler"
+
+    # Rename binaries to match commit they were built from.
+{% for target in beacon_node_build_targets %}
+    mv "build/{{ target }}" "build/{{ target }}_${COMMIT}"
+
+    # Create a symbolic link to the latest version
+    ln -frs build/{{ target }}_${COMMIT} build/{{ target }}
+{% endfor %}
+
+    # Delete copies that are older than 7 days
+    find build -mtime +7 -exec rm '{}' \+
+}
+
+#-------------------------------------------------------------------------------
+
+BRANCH="{{ beacon_node_repo_branch }}"
+
+if [[ "${USER}" != "{{ beacon_node_user }}" ]]; then
+    echo "Incorrect user: ${USER}" >&2
+    echo "Expected: {{ beacon_node_user }}" >&2
+    exit 1
+fi
+
+# Build the Beacon node binaries
+pushd repo >/dev/null
+
+# Detached HEAD means we're probably on a tag
+if headIsDetached; then
+    echo " >>> Deatached HEAD, nothing to fetch."
+else
+    echo " >>> Fetching changes..."
+    fetchChanges
+fi
+
+COMMIT=$(git rev-parse --short=8 HEAD)
+
+if binaryExists && [[ "$1" != "--force" ]]; then
+    echo " >>> Binary already built"
+else
+    echo " >>> Building binaries..."
+    buildBinaries
+fi
+
+popd >/dev/null
+
+echo " >>> SUCCESS"

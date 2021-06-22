@@ -1,0 +1,30 @@
+---
+- name: 'Create Consul service definition'
+  include_role: name=consul-service
+  vars:
+    consul_config_name: '{{ beacon_node_consul_service_file_name }}'
+    consul_services:
+      - id: '{{ beacon_node_service_name }}'
+        name: '{{ beacon_node_consul_service_name }}'
+        port: '{{ beacon_node_listening_port }}'
+        address: '{{ beacon_node_public_address }}'
+        tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus']
+        # Nimbus runs on one thread and RPC calls regularly time out.
+        #checks:
+        #  - name: '{{ beacon_node_consul_service_name }}-health'
+        #    type: 'script'
+        #    script: '{{ beacon_node_cont_vol }}/rpc.sh get_v1_node_version'
+        #    interval: '60s'
+        #    timeout: '10s'
+
+      - id: '{{ beacon_node_service_name }}-metrics'
+        name: '{{ beacon_node_consul_metrics_service_name }}'
+        port: '{{ beacon_node_metrics_port }}'
+        address: '{{ ansible_local.wireguard.vpn_ip }}'
+        tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus', 'metrics']
+        meta:
+          container: '{{ beacon_node_service_name }}'
+        checks:
+          - name: '{{ beacon_node_consul_metrics_service_name }}-health'
+            type: 'http'
+            http: 'http://localhost:{{ beacon_node_metrics_port }}/metrics'

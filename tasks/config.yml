@@ -1,0 +1,27 @@
+---
+- name: Create directories
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    mode: 0750
+  with_items:
+    - '{{ beacon_node_data_path }}'
+
+- name: Create netkey file (optional)
+  copy:
+    dest: '{{ beacon_node_netkey_path }}'
+    content: '{{ beacon_node_netkey }}'
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    mode: 0600
+  when: beacon_node_netkey is defined
+
+- name: Create JSON RPC wrapper script
+  template:
+    src: 'rpc.sh.j2'
+    dest: '{{ beacon_node_rpc_script_path }}'
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    mode: 0750
