@@ -1,4 +1,5 @@
-beacon_node_service_name: 'beacon-node-{{ beacon_node_repo_branch }}'
+---
+beacon_node_service_name: 'beacon-node-{{ beacon_node_network }}-{{ beacon_node_repo_branch }}'
 
 beacon_node_path: '/data/{{ beacon_node_service_name }}'
 beacon_node_data_path: '{{ beacon_node_path }}/data'
@@ -24,7 +25,7 @@ beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
 
 # For validation
-beacon_node_valid_network_names: ["toledo", "pyrmont", "prater", "mainnet", "steklo", "nocturne"]
+beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne"]
 
 # connectivity settings
 beacon_node_public_address: '{{ ansible_host }}'
