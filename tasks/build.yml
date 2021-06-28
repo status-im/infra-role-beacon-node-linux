@@ -17,13 +17,10 @@
     group: '{{ beacon_node_group }}'
     mode: 0775
 
-- name: Run build script
-  shell: '{{ beacon_node_build_script_path }}'
-  become_user: '{{ beacon_node_user }}'
-  async: 3600 # max allowed time in seconds
-  poll: 10 # polling interval in seconds
-  args:
-    chdir: '{{ beacon_node_path }}'
+- name: Check if node binary exists
+  stat:
+    path: '{{ beacon_node_repo_path }}/build/nimbus_beacon_node'
+  register: beacon_node_bin
 
 - name: Create timer for build script
   include_role: name=systemd-timer
@@ -32,7 +29,7 @@
     systemd_timer_user: '{{ beacon_node_user }}'
     systemd_timer_group: '{{ beacon_node_group }}'
     systemd_timer_description: 'Build {{ beacon_node_service_name }}'
-    systemd_timer_start_on_creation: false
+    systemd_timer_start_on_creation: '{{ not beacon_node_bin.stat.exists }}'
     systemd_timer_consul_warning: true
     systemd_timer_enabled: '{{ beacon_node_build_timer_enabled }}'
     systemd_timer_frequency: '{{ beacon_node_build_frequency }}'
