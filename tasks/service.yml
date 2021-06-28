@@ -2,7 +2,7 @@
 - name: Create systemd Unit file
   template:
     src: 'beacon-node.service.j2'
-    dest: '/lib/systemd/system/{{ beacon_node_service_name }}.service'
+    dest: '/etc/systemd/system/{{ beacon_node_service_name }}.service'
     mode: 0644
 
 - name: Reload systemctl
