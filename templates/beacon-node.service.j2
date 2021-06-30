@@ -11,7 +11,7 @@ WorkingDirectory={{ beacon_node_path }}
 Restart=on-failure
 ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --network={{ beacon_node_network }} \
-    --data-dir='{{ beacon_node_data_path }}/shared_{{ beacon_node_network }}_0' \
+    --data-dir='{{ beacon_node_data_path }}/{{ beacon_node_data_folder }}' \
 {% for url in beacon_node_web3_urls | mandatory %}
     --web3-url={{ url | mandatory }} \
 {% endfor %}

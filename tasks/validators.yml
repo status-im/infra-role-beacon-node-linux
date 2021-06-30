@@ -1,0 +1,18 @@
+---
+- name: 'Distribute validators and secrets'
+  include_role: name=infra-role-dist-validators
+  vars:
+    dist_validators_name: '{{ beacon_node_dist_validators_name }}'
+    dist_validators_start: '{{ beacon_node_dist_validators_start | mandatory }}'
+    dist_validators_end: '{{ beacon_node_dist_validators_end | mandatory }}'
+    dist_validators_data_path: '{{ beacon_node_dist_validators_data_path | mandatory }}'
+
+- when: dist_validators_deployed is defined
+  block:
+    - name: 'Show number of validators deployed'
+      debug: msg='Deployed {{ dist_validators_deployed|length }} validators'
+
+    - name: 'Restart beacon node service'
+      service:
+        name: '{{ beacon_node_service_name }}.service'
+        state: 'restarted'
