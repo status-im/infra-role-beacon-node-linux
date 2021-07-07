@@ -6,6 +6,8 @@
     dist_validators_start: '{{ beacon_node_dist_validators_start | mandatory }}'
     dist_validators_end: '{{ beacon_node_dist_validators_end | mandatory }}'
     dist_validators_data_path: '{{ beacon_node_dist_validators_data_path | mandatory }}'
+    dist_validators_user: '{{ beacon_node_user }}'
+    dist_validators_group: '{{ beacon_node_group }}'
 
 - when: dist_validators_deployed is defined
   block:
