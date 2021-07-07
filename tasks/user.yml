@@ -18,3 +18,9 @@
     src: 'builds_sudoers.j2'
     dest: '/etc/sudoers.d/80-beacon-node-builds'
     mode: 0440
+
+- name: Sudoers file for login as nimbus user
+  template:
+    src: 'nimbus_sudoers.j2'
+    dest: '/etc/sudoers.d/81-nimbus-login'
+    mode: 0440
