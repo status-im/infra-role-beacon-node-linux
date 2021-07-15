@@ -4,7 +4,6 @@
     name: '{{ beacon_node_user }}'
     group: '{{ beacon_node_group }}'
     shell: '/bin/bash'
-    create_home: false
 
 - name: Set disable rebase as merge strategy
   git_config:
