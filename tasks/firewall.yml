@@ -1,17 +1,10 @@
 ---
-- name: 'Open ports'
-  iptables:
-    comment: '{{ beacon_node_service_name }} {{ rule.protocol }}'
-    action: insert
-    chain: INPUT
-    jump: ACCEPT
-    source: '0.0.0.0/0'
-    protocol: '{{ rule.protocol }}'
-    destination_port: '{{ rule.port }}'
-  with_items:
-    - { protocol: 'tcp', port: '{{ beacon_node_listening_port }}' }
-    - { protocol: 'udp', port: '{{ beacon_node_discovery_port }}' }
-  loop_control:
-    loop_var: rule
-  notify:
-    - Save iptables rules
+- name: Open ports in iptables firewall
+  include_role: name=open-ports
+  vars:
+    open_ports_default_comment: '{{ beacon_node_service_name }}'
+    open_ports_default_chain: 'SERVICES'
+    open_ports_list:
+      - { port: '{{ beacon_node_listening_port }}', protocol: 'tcp' }
+      - { port: '{{ beacon_node_discovery_port }}', protocol: 'udp' }
+      - { port: '{{ beacon_node_metrics_port }}',   chain: 'VPN', ipset: 'metrics.hq' }
