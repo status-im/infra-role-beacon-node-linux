@@ -1,4 +1,4 @@
 # Allow non-root users logging in as nimbus user
 
-%{{ beacon_node_group }} ALL= NOPASSWD: /bin/su – postgres
+%{{ beacon_node_group }} ALL= NOPASSWD: /bin/su – {{ beacon_node_user }}
 %{{ beacon_node_group }} ALL=({{ beacon_node_user }}) NOPASSWD: ALL
