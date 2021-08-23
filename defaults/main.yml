@@ -33,8 +33,13 @@ beacon_node_public_address: '{{ ansible_host }}'
 beacon_node_max_peers: 160
 beacon_node_discovery_port: 9000
 beacon_node_listening_port: 9000
+
+# Scraping of metrics done via VPN. Protected by firewall.
+beacon_node_metrics_address: '0.0.0.0'
 beacon_node_metrics_port: 9200
+beacon_node_rpc_address: '127.0.0.1'
 beacon_node_rpc_port: 9900
+beacon_node_rest_address: '127.0.0.1'
 beacon_node_rest_port: 5052
 
 # Automatically distribute validators
