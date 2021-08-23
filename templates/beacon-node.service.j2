@@ -28,6 +28,8 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --rpc \
     --rpc-address=0.0.0.0 \
     --rpc-port={{ beacon_node_rpc_port }} \
+    --rest-address=0.0.0.0 \
+    --rest-port={{ beacon_node_rest_port }} \
     --metrics \
     --metrics-address=0.0.0.0 \
     --metrics-port={{ beacon_node_metrics_port }}
