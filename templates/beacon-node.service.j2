@@ -26,12 +26,13 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }} \
     --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }} \
     --rpc \
-    --rpc-address=0.0.0.0 \
+    --rpc-address={{ beacon_node_rpc_address }} \
     --rpc-port={{ beacon_node_rpc_port }} \
-    --rest-address=0.0.0.0 \
+    --rest \
+    --rest-address={{ beacon_node_rest_address }} \
     --rest-port={{ beacon_node_rest_port }} \
     --metrics \
-    --metrics-address=0.0.0.0 \
+    --metrics-address={{ beacon_node_metrics_address }} \
     --metrics-port={{ beacon_node_metrics_port }}
 
 [Install]
