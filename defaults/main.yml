@@ -12,6 +12,9 @@ beacon_node_build_script_path: '{{ beacon_node_path }}/build.sh'
 beacon_node_user: 'nimbus'
 beacon_node_group: 'staff'
 
+beacon_node_validators_dir: ""
+beacon_node_secrets_dir: ""
+
 beacon_node_build_timer_enabled: true
 beacon_node_build_timer_timeout: 3600
 beacon_node_build_frequency: 'daily'
@@ -35,10 +38,17 @@ beacon_node_discovery_port: 9000
 beacon_node_listening_port: 9000
 
 # Scraping of metrics done via VPN. Protected by firewall.
+beacon_node_metrics_enabled: true
 beacon_node_metrics_address: '0.0.0.0'
 beacon_node_metrics_port: 9200
+
+# The JSON-RPC service is disabled because this is a legacy
+# functionality that will be removed from Nimbus eventually
+beacon_node_rpc_enabled: false
 beacon_node_rpc_address: '127.0.0.1'
 beacon_node_rpc_port: 9900
+
+beacon_node_rest_enabled: true
 beacon_node_rest_address: '127.0.0.1'
 beacon_node_rest_port: 5052
 

@@ -12,6 +12,12 @@ Restart=on-failure
 ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --network={{ beacon_node_network }} \
     --data-dir='{{ beacon_node_data_path }}/{{ beacon_node_data_folder }}' \
+{% if beacon_node_validators_dir != "" %}
+    --validators-dir='{{ beacon_node_validators_dir }}' \
+{% endif %}
+{% if beacon_node_secrets_dir != "" %}
+    --secrets-dir='{{ beacon_node_secrets_dir }}' \
+{% endif %}
 {% for url in beacon_node_web3_urls | mandatory %}
     --web3-url={{ url | mandatory }} \
 {% endfor %}
@@ -25,15 +31,21 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --insecure-netkey-password=true \
     --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }} \
     --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }} \
-    --rpc \
+    --rpc={{ beacon_node_rpc_enabled | to_json }} \
+{% if beacon_node_rpc_enabled %}
     --rpc-address={{ beacon_node_rpc_address }} \
     --rpc-port={{ beacon_node_rpc_port }} \
-    --rest \
+{% endif %}
+    --rest={{ beacon_node_rest_enabled | to_json }} \
+{% if beacon_node_rest_enabled %}
     --rest-address={{ beacon_node_rest_address }} \
     --rest-port={{ beacon_node_rest_port }} \
-    --metrics \
+{% endif %}
+    --metrics={{ beacon_node_metrics_enabled | to_json }} \
+{% if beacon_node_metrics_enabled %}
     --metrics-address={{ beacon_node_metrics_address }} \
     --metrics-port={{ beacon_node_metrics_port }}
+{% endif %}
 
 [Install]
 WantedBy=multi-user.target
