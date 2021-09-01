@@ -39,6 +39,7 @@ function buildBinaries() {
 #-------------------------------------------------------------------------------
 
 BRANCH="{{ beacon_node_repo_branch }}"
+SERVICE="{{ beacon_node_service_name }}.service"
 
 if [[ "${USER}" != "{{ beacon_node_user }}" ]]; then
     echo "Incorrect user: ${USER}" >&2
@@ -61,10 +62,14 @@ COMMIT=$(git rev-parse --short=8 HEAD)
 
 if binaryExists && [[ "$1" != "--force" ]]; then
     echo " >>> Binary already built"
+    exit 0
 else
     echo " >>> Building binaries..."
     buildBinaries
 fi
+
+echo " >>> Restarting service..."
+sudo systemctl restart "${SERVICE}"
 
 popd >/dev/null
 

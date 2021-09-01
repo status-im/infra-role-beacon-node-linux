@@ -1,7 +1,7 @@
-# Allow non-root users start Nimbus builds with sudo.
+# Allow non-root users start Nimbus builds and manage service with sudo.
 
 # {{ beacon_node_service_name }}
-%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *status {{ beacon_node_service_name }}-build*
-%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *start {{ beacon_node_service_name }}-build*
-%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *stop {{ beacon_node_service_name }}-build*
-%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *restart {{ beacon_node_service_name }}-build*
+%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *status {{ beacon_node_service_name }}*
+%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *start {{ beacon_node_service_name }}*
+%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *stop {{ beacon_node_service_name }}*
+%{{ beacon_node_group }} ALL= NOPASSWD: /usr/bin/systemctl *restart {{ beacon_node_service_name }}*
