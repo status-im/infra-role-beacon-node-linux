@@ -1,4 +1,11 @@
 ---
+- name: Symlink service logs folder
+  file:
+    src: '/var/log/service/{{ beacon_node_service_name }}'
+    dest: '{{ beacon_node_logs_link }}'
+    state: 'link'
+    force: true
+
 - name: Create systemd Unit file
   template:
     src: 'beacon-node.service.j2'
