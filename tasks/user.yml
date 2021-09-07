@@ -15,11 +15,11 @@
 - name: Sudoers file to let non-root users start jobs
   template:
     src: 'builds_sudoers.j2'
-    dest: '/etc/sudoers.d/80-beacon-node-builds'
+    dest: '/etc/sudoers.d/80-{{ beacon_node_service_name }}-builds'
     mode: 0440
 
 - name: Sudoers file for login as nimbus user
   template:
     src: 'nimbus_sudoers.j2'
-    dest: '/etc/sudoers.d/81-nimbus-login'
+    dest: '/etc/sudoers.d/81-{{ beacon_node_service_name }}-login'
     mode: 0440
