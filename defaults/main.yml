@@ -53,6 +53,9 @@ beacon_node_rest_enabled: true
 beacon_node_rest_address: '127.0.0.1'
 beacon_node_rest_port: 5052
 
+# How many hardware threads to use
+beacon_node_threads: 1
+
 # Automatically distribute validators
 beacon_node_dist_validators_enabled: false
 beacon_node_dist_validators_name: '{{ beacon_node_network }}_deposits'
