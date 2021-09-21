@@ -24,7 +24,6 @@ The service exposes three ports by default:
 # Installation
 
 Add to your `requirements.yml` file:
-
 ```yaml
 - name: infra-role-beacon-node-linux
   src: git+git@github.com:status-im/infra-role-beacon-node-linux.git
@@ -34,52 +33,44 @@ Add to your `requirements.yml` file:
 # Configuration
 
 The crucial settings are:
-
 ```yaml
 # branch which should be built
 beacon_node_repo_branch: 'stable'
-
 # ethereum network to connect to
 beacon_node_network: 'mainnet'
-
 # optional setting for debug mode
 beacon_node_log_level: 'DEBUG'
-
 # Infura WebSocket URLs
 beacon_node_web3_urls: ['wss://mainnet.infura.io/ws/v3/123qwe123qwe123qwe']
 ```
-
 The order of WebSocket URLs matters. First is the default, the rest are fallbacks.
 
 # Usage
 
 Assuming the `stable` branch was built you can manage the service with:
-
-```
+```sh
 systemctl start beacon-node-stable
 systemctl status beacon-node-stable
 systemctl stop beacon-node-stable
-
-# logs
-journalctl -u beacon-node-stable
 ```
-
+You can view logs under:
+```sh
+tail -f /data/beacon-node-stable/logs/service.log
+```
 The service will store all data in the `/data/beacon-node-stable` directory.
 
 # Building
 
 A timer will be installed to build the image:
-
-```
+```sh
 systemctl list-timers beacon-node-stable-build
 ```
-
 To rebuild the image:
-
-```
+```sh
 systemctl start beacon-node-stable-build.service
-
-# check build logs
+```
+To check build logs use:
+```sh
 journalctl -u beacon-node-stable-build.service
 ```
 

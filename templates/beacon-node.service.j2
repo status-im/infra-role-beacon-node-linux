@@ -10,6 +10,7 @@ Group={{ beacon_node_group }}
 WorkingDirectory={{ beacon_node_path }}
 SyslogIdentifier={{ beacon_node_service_name }}
 SyslogFacility=local6
+SyslogLevel=debug
 Restart=on-failure
 ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --network={{ beacon_node_network }} \
