@@ -68,8 +68,14 @@ else
     buildBinaries
 fi
 
-echo " >>> Restarting service..."
-sudo systemctl restart "${SERVICE}"
+# Avoid faiure on first Ansible run due to missing service.
+if [[ $(systemctl is-active "${SERVICE}" || true) == "inactive" ]]; then
+    echo " !!! No service to restart!"
+    exit
+else
+    echo " >>> Restarting service..."
+    sudo systemctl restart "${SERVICE}"
+fi
 
 popd >/dev/null
 
