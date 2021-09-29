@@ -63,15 +63,15 @@ The service will store all data in the `/data/beacon-node-stable` directory.
 
 A timer will be installed to build the image:
 ```sh
-systemctl list-timers beacon-node-stable-build
+systemctl list-timers build-beacon-node-stable
 ```
 To rebuild the image:
 ```sh
-systemctl start beacon-node-stable-build.service
+systemctl start build-beacon-node-stable.service
 ```
 To check build logs use:
 ```sh
-journalctl -u beacon-node-stable-build.service
+journalctl -u build-beacon-node-stable.service
 ```
 
 # Requirements

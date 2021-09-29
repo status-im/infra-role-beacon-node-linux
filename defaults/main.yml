@@ -16,6 +16,7 @@ beacon_node_group: 'staff'
 beacon_node_validators_dir: ""
 beacon_node_secrets_dir: ""
 
+beacon_node_build_service_name: 'build-{{ beacon_node_service_name }}'
 beacon_node_build_timer_enabled: true
 beacon_node_build_timer_timeout: 3600
 beacon_node_build_frequency: 'daily'

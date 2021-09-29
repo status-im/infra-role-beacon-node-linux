@@ -24,7 +24,7 @@
 - name: Create timer for build script
   include_role: name=systemd-timer
   vars:
-    systemd_timer_name: '{{ beacon_node_service_name }}-build'
+    systemd_timer_name: '{{ beacon_node_build_service_name }}'
     systemd_timer_user: '{{ beacon_node_user }}'
     systemd_timer_group: '{{ beacon_node_group }}'
     systemd_timer_description: 'Build {{ beacon_node_service_name }}'
