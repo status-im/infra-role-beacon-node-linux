@@ -32,8 +32,8 @@ function buildBinaries() {
     ln -frs build/{{ target }}_${COMMIT} build/{{ target }}
 {% endfor %}
 
-    # Delete copies that are older than 7 days
-    find build -mtime +7 -exec rm '{}' \+
+    # Delete copies that are older than N days
+    find build -mtime +{{ beacon_node_build_days_kept }} -exec rm '{}' \+
 }
 
 #-------------------------------------------------------------------------------
