@@ -33,5 +33,5 @@
     systemd_timer_enabled: '{{ beacon_node_build_timer_enabled }}'
     systemd_timer_frequency: '{{ beacon_node_build_frequency }}'
     systemd_timer_timeout_sec: '{{ beacon_node_build_timer_timeout }}'
-    systemd_timer_work_dir: '{{ beacon_node_path }}'
+    systemd_timer_work_dir: '{{ beacon_node_service_path }}'
     systemd_timer_script_path: '{{ beacon_node_build_script_path }}'

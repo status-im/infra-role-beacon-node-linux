@@ -1,14 +1,13 @@
 ---
 beacon_node_service_name: 'beacon-node-{{ beacon_node_network }}-{{ beacon_node_repo_branch }}'
-
-beacon_node_path: '/data/{{ beacon_node_service_name }}'
-beacon_node_data_path: '{{ beacon_node_path }}/data'
+beacon_node_service_path: '/data/{{ beacon_node_service_name }}'
+beacon_node_data_path: '{{ beacon_node_service_path }}/data'
 beacon_node_data_folder: 'shared_{{ beacon_node_network }}_0'
-beacon_node_repo_path: '{{ beacon_node_path }}/repo'
-beacon_node_logs_link: '{{ beacon_node_path }}/logs'
+beacon_node_repo_path: '{{ beacon_node_service_path }}/repo'
+beacon_node_logs_link: '{{ beacon_node_service_path }}/logs'
 beacon_node_netkey_path: '{{ beacon_node_data_path }}/netkey'
-beacon_node_rpc_script_path: '{{ beacon_node_path }}/rpc.sh'
-beacon_node_build_script_path: '{{ beacon_node_path }}/build.sh'
+beacon_node_rpc_script_path: '{{ beacon_node_service_path }}/rpc.sh'
+beacon_node_build_script_path: '{{ beacon_node_service_path }}/build.sh'
 
 beacon_node_user: 'nimbus'
 beacon_node_group: 'staff'
