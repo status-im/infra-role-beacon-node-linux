@@ -69,11 +69,6 @@ beacon_node_dist_validators_data_path: '{{ beacon_node_data_path }}/{{ beacon_no
 #beacon_node_dist_validators_start: ~
 #beacon_node_dist_validators_end: ~
 
-# resource limits, mem in MB
-# NOTE: was used when we ran the node in a docker container, need to be adapted to systemd
-# beacon_node_mem_limit: '{{ (ansible_memtotal_mb * 0.5) | int }}'
-# beacon_node_mem_reserve: '{{ (ansible_memtotal_mb * 0.4) | int }}'
-
 # Consul service definition settings
 beacon_node_consul_service_name: 'beacon-node'
 beacon_node_consul_service_file_name: '{{ beacon_node_service_name | replace("-", "_") }}'
@@ -82,7 +77,8 @@ beacon_node_consul_metrics_service_name: '{{ beacon_node_consul_service_name }}-
 # WebSocket RPC URLs, Goerli for testnets
 beacon_node_web3_urls: ['wss://goerli.infura.io/ws/v3/6224f3c792cc443fafb64e70a98f871e']
 
+# Version of schema for SQLite slashing database.
 beacon_node_slashing_db_kind: 'v2'
 
 # Netkey file contents, optional.
-# beacon_node_netkey: '{"key":"json"}'
+#beacon_node_netkey: '{"key":"json"}'
