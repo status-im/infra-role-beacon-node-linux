@@ -39,6 +39,10 @@ beacon_node_max_peers: 160
 beacon_node_discovery_port: 9000
 beacon_node_listening_port: 9000
 
+# Firewall
+beacon_node_firewall_libp2p_open: true
+beacon_node_firewall_metrics_open: true
+
 # Scraping of metrics done via VPN. Protected by firewall.
 beacon_node_metrics_enabled: true
 beacon_node_metrics_address: '0.0.0.0'
@@ -46,7 +50,7 @@ beacon_node_metrics_port: 9200
 
 # The JSON-RPC service is disabled because this is a legacy
 # functionality that will be removed from Nimbus eventually
-beacon_node_rpc_enabled: false
+beacon_node_rpc_enabled: true
 beacon_node_rpc_address: '127.0.0.1'
 beacon_node_rpc_port: 9900
 
