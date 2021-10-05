@@ -18,10 +18,11 @@ function fetchChanges() {
 
 function buildBinaries() {
     # Lower CPU and I/O priority so it doesn't affect the running beacon node
-    NICE="nice -n 19 ionice -c2 -n7"
+    export NICE="nice -n 19 ionice -c2 -n7"
+    export MAKEFLAGS="-j{{ beacon_node_build_jobs }}"
 
-    ${NICE} make -j6 update
-    ${NICE} make -j6 {{ beacon_node_build_targets | join(" ") }} \
+    make update
+    make {{ beacon_node_build_targets | join(" ") }} \
         LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler"
 
     # Rename binaries to match commit they were built from.
