@@ -5,6 +5,6 @@
     open_ports_default_comment: '{{ beacon_node_service_name }}'
     open_ports_default_chain: 'SERVICES'
     open_ports_list:
-      - { port: '{{ beacon_node_listening_port }}', protocol: 'tcp', create: '{{ beacon_node_firewall_libp2p_open }}' }
-      - { port: '{{ beacon_node_discovery_port }}', protocol: 'udp', create: '{{ beacon_node_firewall_libp2p_open }}' }
-      - { port: '{{ beacon_node_metrics_port }}', chain: 'VPN', ipset: 'metrics.hq', create: '{{ beacon_node_firewall_metrics_open }}' }
+      - { port: '{{ beacon_node_listening_port }}', protocol: 'tcp', state: '{{ beacon_node_firewall_libp2p_open | ternary("present", "absent") }}' }
+      - { port: '{{ beacon_node_discovery_port }}', protocol: 'udp', state: '{{ beacon_node_firewall_libp2p_open | ternary("present", "absent") }}' }
+      - { port: '{{ beacon_node_metrics_port }}', chain: 'VPN', ipset: 'metrics.hq', state: '{{ beacon_node_firewall_metrics_open | ternary("present", "absent") }}' }
