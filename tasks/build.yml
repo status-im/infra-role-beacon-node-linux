@@ -29,6 +29,7 @@
     systemd_timer_group: '{{ beacon_node_group }}'
     systemd_timer_description: 'Build {{ beacon_node_service_name }}'
     systemd_timer_start_on_creation: '{{ not beacon_node_bin.stat.exists }}'
+    systemd_timer_ionice_class: 'idle'
     systemd_timer_consul_warning: true
     systemd_timer_enabled: '{{ beacon_node_build_timer_enabled }}'
     systemd_timer_frequency: '{{ beacon_node_build_frequency }}'
