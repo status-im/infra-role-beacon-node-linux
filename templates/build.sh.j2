@@ -17,9 +17,8 @@ function fetchChanges() {
 }
 
 function buildBinaries() {
-    # Lower CPU and I/O priority so it doesn't affect the running beacon node
-    export NICE="nice -n 19 ionice -c2 -n7"
-    export MAKEFLAGS="-j{{ beacon_node_build_jobs }}"
+    # Control number of jobs used to lower impact on running nodes
+    export MAKEFLAGS="-j{{ beacon_node_build_jobs | int }}"
 
     make update
     make {{ beacon_node_build_targets | join(" ") }} \
