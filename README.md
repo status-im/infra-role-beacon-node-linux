@@ -49,29 +49,29 @@ The order of WebSocket URLs matters. First is the default, the rest are fallback
 
 Assuming the `stable` branch was built you can manage the service with:
 ```sh
-systemctl start beacon-node-stable
-systemctl status beacon-node-stable
-systemctl stop beacon-node-stable
+systemctl start beacon-node-mainnet-stable
+systemctl status beacon-node-mainnet-stable
+systemctl stop beacon-node-mainnet-stable
 ```
 You can view logs under:
 ```sh
-tail -f /data/beacon-node-stable/logs/service.log
+tail -f /data/beacon-node-mainnet-stable/logs/service.log
 ```
-The service will store all data in the `/data/beacon-node-stable` directory.
+The service will store all data in the `/data/beacon-node-mainnet-stable` directory.
 
 # Building
 
 A timer will be installed to build the image:
 ```sh
-systemctl list-timers build-beacon-node-stable
+systemctl list-timers build-beacon-node-mainnet-stable
 ```
 To rebuild the image:
 ```sh
-systemctl start build-beacon-node-stable.service
+systemctl start build-beacon-node-mainnet-stable.service
 ```
 To check build logs use:
 ```sh
-journalctl -u build-beacon-node-stable.service
+journalctl -u build-beacon-node-mainnet-stable.service
 ```
 
 # Requirements
