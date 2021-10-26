@@ -45,31 +45,50 @@ beacon_node_web3_urls: ['wss://mainnet.infura.io/ws/v3/123qwe123qwe123qwe']
 ```
 The order of WebSocket URLs matters. First is the default, the rest are fallbacks.
 
-# Usage
+# Management
+
+## Service
 
 Assuming the `stable` branch was built you can manage the service with:
 ```sh
-systemctl start beacon-node-mainnet-stable
-systemctl status beacon-node-mainnet-stable
-systemctl stop beacon-node-mainnet-stable
+sudo systemctl start beacon-node-mainnet-stable
+sudo systemctl status beacon-node-mainnet-stable
+sudo systemctl stop beacon-node-mainnet-stable
 ```
 You can view logs under:
 ```sh
 tail -f /data/beacon-node-mainnet-stable/logs/service.log
 ```
-The service will store all data in the `/data/beacon-node-mainnet-stable` directory.
+All node data is located in `/data/beacon-node-mainnet-stable/data`.
 
-# Building
+## Builds
 
 A timer will be installed to build the image:
 ```sh
-systemctl list-timers build-beacon-node-mainnet-stable
+ > sudo systemctl list-units --type=service '*beacon-node-*'
+  UNIT                                LOAD   ACTIVE SUB     DESCRIPTION
+  beacon-node-prater-stable.service   loaded active running Nimbus Beacon Node on prater network (stable)
+  beacon-node-prater-testing.service  loaded active running Nimbus Beacon Node on prater network (testing)
+  beacon-node-prater-unstable.service loaded active running Nimbus Beacon Node on prater network (unstable)
 ```
 To rebuild the image:
 ```sh
-systemctl start build-beacon-node-mainnet-stable.service
+ > sudo systemctl start build-beacon-node-prater-stable
+ > sudo systemctl status build-beacon-node-prater-stable
+ ● beacon-node-prater-stable-build.service - Build beacon-node-prater-stable
+     Loaded: loaded (/etc/systemd/system/beacon-node-prater-stable-build.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Wed 2021-09-29 12:00:12 UTC; 2h 15min ago
+TriggeredBy: ● beacon-node-prater-stable-build.timer
+       Docs: https://github.com/status-im/infra-role-systemd-timer
+    Process: 1212987 ExecStart=/data/beacon-node-prater-stable/build.sh (code=exited, status=0/SUCCESS)
+   Main PID: 1212987 (code=exited, status=0/SUCCESS)
+
+Sep 29 12:00:12 build.sh[1213054]: HEAD is now at 0b21ebfe readme: update toc
+Sep 29 12:00:12 build.sh[1212987]:  >>> Binary already built
+Sep 29 12:00:12 systemd[1]: beacon-node-prater-stable-build.service: Succeeded.
+Sep 29 12:00:12 systemd[1]: Finished Build beacon-node-prater-stable.
 ```
-To check build logs use:
+To check full build logs use:
 ```sh
 journalctl -u build-beacon-node-mainnet-stable.service
 ```
