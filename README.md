@@ -4,14 +4,12 @@ This role provisions a [Nimbus](https://nimbus.status.im/) installation that can
 
 # Introduction
 
-The role will checkout a branch from the
-[nimbus-eth2](https://github.com/status-im/nimbus-eth2) repo, build and run it.
+The role will:
 
-Each host can run multiple beacon nodes. Each node can be built from a different
-branch (stable, unstable, testing, etc.) and will be run with systemd.
-
-A timer is installed that will periodically pull changes from git and rebuild
-the binaries.
+* Checkout a branch from the [nimbus-eth2](https://github.com/status-im/nimbus-eth2) repo
+* Build it using the [`build.sh`](./templates/build.sh.j2) Bash script
+* Schedule regular builds using [Systemd timers](https://www.freedesktop.org/software/systemd/man/systemd.timer.html)
+* Start a node by defining a [Systemd service](https://www.freedesktop.org/software/systemd/man/systemd.service.html)
 
 # Ports
 
