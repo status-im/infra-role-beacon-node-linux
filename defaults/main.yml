@@ -19,7 +19,6 @@ beacon_node_build_service_name: 'build-{{ beacon_node_service_name }}'
 beacon_node_build_timer_enabled: true
 beacon_node_build_timer_timeout: 3600
 beacon_node_build_frequency: 'daily'
-beacon_node_build_targets: ['nimbus_beacon_node', 'nimbus_signing_process']
 beacon_node_build_days_kept: 3
 beacon_node_build_jobs: '{{ ansible_processor_vcpus / 2 | round(0, "ceil") }}'
 
