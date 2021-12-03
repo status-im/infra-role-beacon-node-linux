@@ -20,7 +20,7 @@ function buildBinaries() {
     # Control number of jobs used to lower impact on running nodes
     export MAKEFLAGS="-j{{ beacon_node_build_jobs | int }}"
 
-    make update
+    make update OVERRIDE=1
     make nimbus_beacon_node \
         LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler"
 
