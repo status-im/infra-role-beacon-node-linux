@@ -22,7 +22,7 @@ function buildBinaries() {
 
     make update OVERRIDE=1
     make nimbus_beacon_node \
-        LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler"
+        LOG_LEVEL="TRACE" NIMFLAGS="-d:testnet_servers_image -d:noSignalHandler -d:libp2p_protobuf_metrics -d:libp2p_network_protocols_metrics"
 
     # Rename binaries to match commit they were built from.
     mv "build/nimbus_beacon_node" "build/nimbus_beacon_node_${COMMIT}"
