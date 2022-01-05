@@ -21,6 +21,10 @@ beacon_node_build_timer_timeout: 3600
 beacon_node_build_frequency: 'daily'
 beacon_node_build_days_kept: 3
 beacon_node_build_jobs: '{{ ansible_processor_vcpus / 2 | round(0, "ceil") }}'
+beacon_node_build_log_level: 'TRACE'
+beacon_node_build_nim_flags: >-
+  -d:testnet_servers_image
+  -d:noSignalHandler
 
 beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2'
 beacon_node_repo_branch: 'stable'
