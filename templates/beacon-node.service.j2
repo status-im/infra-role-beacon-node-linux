@@ -45,12 +45,18 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --rest-address={{ beacon_node_rest_address }} \
     --rest-port={{ beacon_node_rest_port }} \
 {% endif %}
-    --num-threads={{ beacon_node_threads }} \
     --metrics={{ beacon_node_metrics_enabled | to_json }} \
 {% if beacon_node_metrics_enabled %}
     --metrics-address={{ beacon_node_metrics_address }} \
-    --metrics-port={{ beacon_node_metrics_port }}
+    --metrics-port={{ beacon_node_metrics_port }} \
 {% endif %}
+{% if beacon_node_validator_monitor_auto %}
+    --validator-monitor-auto \
+{% endif %}
+{% if beacon_node_validator_monitor_totals %}
+    --validator-monitor-totals \
+{% endif %}
+    --num-threads={{ beacon_node_threads }}
 
 [Install]
 WantedBy=multi-user.target
