@@ -1,13 +1,11 @@
 ---
-- name: Create directories
+- name: Create service directory
   file:
-    path: '{{ item }}'
+    path: '{{ beacon_node_data_path }}'
     state: directory
     owner: '{{ beacon_node_user }}'
     group: '{{ beacon_node_group }}'
-    mode: 0750
-  with_items:
-    - '{{ beacon_node_data_path }}'
+    mode: 0770
 
 - name: Create netkey file (optional)
   copy:
@@ -25,3 +23,11 @@
     owner: '{{ beacon_node_user }}'
     group: '{{ beacon_node_group }}'
     mode: 0750
+
+- name: Create Ansible toggle script
+  copy:
+    src: 'ansible_toggle.sh'
+    dest: '{{ beacon_node_service_path }}/ansible_enabled.sh'
+    mode: 0750
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'

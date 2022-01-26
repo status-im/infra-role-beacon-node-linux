@@ -11,3 +11,20 @@
   assert:
     that: '{{ beacon_node_network in beacon_node_valid_network_names }}'
     quiet: true
+
+# Used by devs who make manual changes to node setup.
+- name: Check Ansible toggle script
+  stat:
+    path: '{{ beacon_node_service_path }}/ansible_disabled.sh'
+  register: beacon_node_ansible_toggle
+
+- name: Check if Ansible updates are disabled
+  set_fact:
+    beacon_node_ansible_disabled: '{{ beacon_node_ansible_toggle.stat.exists }}'
+
+# Using 'fail' task to make the warning red and visible.
+- name: 'WARNING: {{ beacon_node_service_name }}'
+  fail:
+    msg: 'WARNING: Ansible changes disabled due to toggle script!'
+  when: beacon_node_ansible_disabled
+  ignore_errors: true

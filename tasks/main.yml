@@ -1,11 +1,13 @@
 ---
 - include_tasks: checks.yml
-- include_tasks: install.yml
-- include_tasks: user.yml
-- include_tasks: config.yml
-- include_tasks: build.yml
-- include_tasks: service.yml
-- import_tasks: validators.yml
-  when: beacon_node_dist_validators_enabled
-- include_tasks: firewall.yml
-- include_tasks: consul.yml
+- when: not beacon_node_ansible_disabled
+  block:
+    - include_tasks: install.yml
+    - include_tasks: user.yml
+    - include_tasks: config.yml
+    - include_tasks: build.yml
+    - include_tasks: service.yml
+    - import_tasks: validators.yml
+      when: beacon_node_dist_validators_enabled
+    - include_tasks: firewall.yml
+    - include_tasks: consul.yml
