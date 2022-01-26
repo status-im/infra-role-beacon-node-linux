@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Arthur Koziel <arthur@status.im>
+  author: Jakub Sokołowski <jakub@status.im>
   description: Build and run nimbus beacon node
   company: Status.im
   license: MIT
