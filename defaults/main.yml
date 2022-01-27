@@ -34,8 +34,11 @@ beacon_node_log_level: 'INFO' # TRACE DEBUG INFO NOTICE WARN ERROR FATAL NONE
 beacon_node_log_format: 'json' # auto colors nocolors json none
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
+
+# Validator Monitoring
 beacon_node_validator_monitor_auto: false
 beacon_node_validator_monitor_totals: false
+beacon_node_validator_monitor_pubkeys: []
 
 # For validation
 beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne"]
