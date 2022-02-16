@@ -92,3 +92,7 @@ beacon_node_slashing_db_kind: 'v2'
 
 # Netkey file contents, optional.
 #beacon_node_netkey: '{"key":"json"}'
+
+# Which version of Nim to use for the build
+# By default, it would use the one specified by the pinned nimbus-build-system
+beacon_node_nim_commit: ''
