@@ -19,10 +19,9 @@ function fetchChanges() {
 function buildBinaries() {
     # Control number of jobs used to lower impact on running nodes
     export MAKEFLAGS="-j{{ beacon_node_build_jobs | int }}"
-
-    {% if beacon_node_nim_commit != "" %}
+{% if beacon_node_nim_commit is defined and beacon_node_nim_commit != "" %}
     export NIM_COMMIT={{ beacon_node_nim_commit }}
-    {% endif %}
+{% endif %}
 
     make update OVERRIDE=1
     make nimbus_beacon_node \
