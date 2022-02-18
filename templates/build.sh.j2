@@ -74,6 +74,7 @@ else
     buildBinaries
 fi
 
+{% if beacon_node_build_restarts_service %}
 # Avoid faiure on first Ansible run due to missing service.
 if [[ $(systemctl is-active "${SERVICE}" || true) == "inactive" ]]; then
     echo " !!! No service to restart!"
@@ -83,6 +84,7 @@ else
     sudo systemctl restart "${SERVICE}"
 fi
 
+{% endif %}
 popd >/dev/null
 
 echo " >>> SUCCESS"

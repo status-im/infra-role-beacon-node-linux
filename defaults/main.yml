@@ -22,6 +22,7 @@ beacon_node_build_frequency: 'daily'
 beacon_node_build_days_kept: 3
 beacon_node_build_jobs: '{{ ansible_processor_vcpus / 2 | round(0, "ceil") }}'
 beacon_node_build_log_level: 'TRACE'
+beacon_node_build_restarts_service: true
 beacon_node_build_nim_flags: >-
   -d:testnet_servers_image
   -d:noSignalHandler
