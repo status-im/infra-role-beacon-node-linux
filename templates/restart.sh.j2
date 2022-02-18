@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+set -e
+
+function fetchMetrics() {
+    curl -sSf http://${METRICS_ADDR}/metrics
+}
+
+function getNextActionWait() {
+    fetchMetrics | awk -F'[ .]' '/^next_action_wait /{print $2}'
+}
+
+function dots() {
+    printf '%0.s.' $(seq 0 "${1}")
+}
+
+SERVICE='{{ beacon_node_service_name }}.service'
+METRICS_ADDR='localhost:{{ beacon_node_metrics_port }}'
+INTERVAL_SECONDS=1
+SECONDS_REQUIRED="${1:-60}"
+UNCHANGED_COUNT=0
+
+echo "Seconds required: ${SECONDS_REQUIRED}"
+echo "Querying: ${METRICS_ADDR}"
+while true; do
+    SECONDS_LEFT=$(getNextActionWait)
+    # For dots to indicate querying
+    if [[ "${SECONDS_LEFT}" == "${SECONDS_OLD}" ]]; then
+        ((UNCHANGED_COUNT+=1))
+    else
+        UNCHANGED_COUNT=0
+    fi
+    echo -en "\r\e[KNext action in: ${SECONDS_LEFT}s$(dots "${UNCHANGED_COUNT}")"
+    if [[ "${SECONDS_LEFT}" -gt "${SECONDS_REQUIRED}" ]]; then
+        echo -e "\nRestarting: ${SERVICE}"
+        sudo systemctl restart "${SERVICE}"
+        break
+    fi
+    SECONDS_OLD="${SECONDS_LEFT}"
+    sleep "${INTERVAL_SECONDS}"
+done
