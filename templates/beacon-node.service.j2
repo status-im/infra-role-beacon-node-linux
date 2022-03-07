@@ -35,6 +35,7 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --insecure-netkey-password=true \
     --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }} \
     --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }} \
+    --proposer-boosting-debug={{ beacon_node_proposer_boosting_debug | to_json }} \
     --rpc={{ beacon_node_rpc_enabled | to_json }} \
 {% if beacon_node_rpc_enabled %}
     --rpc-address={{ beacon_node_rpc_address }} \
