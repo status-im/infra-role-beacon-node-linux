@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+set -e
+
+SERVICE_USER='{{ beacon_node_user | mandatory }}'
+SERVICE_NAME='{{ beacon_node_service_name | mandatory }}'
+SERVICE_PATH='{{ beacon_node_service_path | mandatory }}'
+NETWORK_NAME='{{ beacon_node_network | mandatory }}'
+SERVICE_DATA_PATH="${SERVICE_PATH}/data/shared_${NETWORK_NAME}_0/"
+
+TRUSTED_NODE_API_URL=$1
+if [[ -z "${TRUSTED_NODE_API_URL}" ]]; then
+    echo "Usage: sync.sh <trusted_node_url>" >&2
+    exit 2
+fi
+
+sudo -u "${SERVICE_USER}" "${SERVICE_PATH}/repo/build/nimbus_beacon_node" \
+    trustedNodeSync \
+    --backfill=false \
+    --network="${NETWORK_NAME}" \
+    --data-dir="${SERVICE_DATA_PATH}" \
+    --trusted-node-url="${TRUSTED_NODE_API_URL}"

@@ -8,14 +8,6 @@
     update: true
   become_user: '{{ beacon_node_user }}'
 
-- name: Create build script
-  template:
-    src: 'build.sh.j2'
-    dest: '{{ beacon_node_build_script_path }}'
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
-    mode: 0775
-
 - name: Check if node binary exists
   stat:
     path: '{{ beacon_node_repo_path }}/build/nimbus_beacon_node'
@@ -35,4 +27,4 @@
     systemd_timer_frequency: '{{ beacon_node_build_frequency }}'
     systemd_timer_timeout_sec: '{{ beacon_node_build_timer_timeout }}'
     systemd_timer_work_dir: '{{ beacon_node_service_path }}'
-    systemd_timer_script_path: '{{ beacon_node_build_script_path }}'
+    systemd_timer_script_path: '{{ beacon_node_service_path }}/build.sh'

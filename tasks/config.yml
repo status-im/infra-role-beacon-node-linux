@@ -16,26 +16,12 @@
     mode: 0600
   when: beacon_node_netkey is defined
 
-- name: Create JSON RPC wrapper script
+- name: Create helper scripts
   template:
-    src: 'rpc.sh.j2'
-    dest: '{{ beacon_node_rpc_script_path }}'
+    src: '{{ item }}'
+    dest: '{{ beacon_node_service_path }}/{{ item|basename|replace(".j2", "") }}'
     owner: '{{ beacon_node_user }}'
     group: '{{ beacon_node_group }}'
     mode: 0750
-
-- name: Create service restart script
-  template:
-    src: 'restart.sh.j2'
-    dest: '{{ beacon_node_restart_script_path }}'
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
-    mode: 0750
-
-- name: Create Ansible toggle script
-  copy:
-    src: 'ansible_toggle.sh'
-    dest: '{{ beacon_node_service_path }}/ansible_enabled.sh'
-    mode: 0750
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
+  with_fileglob:
+    - 'templates/scripts/*'
