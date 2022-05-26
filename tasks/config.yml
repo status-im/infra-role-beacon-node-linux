@@ -16,6 +16,14 @@
     mode: 0600
   when: beacon_node_netkey is defined
 
+- name: Copy Ansible toggle script
+  copy:
+    src: 'ansible_toggle.sh'
+    dest: '{{ beacon_node_service_path }}/ansible_enabled.sh'
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    mode: 0750
+
 - name: Create helper scripts
   template:
     src: '{{ item }}'
