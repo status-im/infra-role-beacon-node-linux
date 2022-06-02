@@ -33,6 +33,7 @@ beacon_node_log_level: 'INFO' # TRACE DEBUG INFO NOTICE WARN ERROR FATAL NONE
 beacon_node_log_format: 'json' # auto colors nocolors json none
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
+beacon_node_extra_flags: []
 
 # Validator Monitoring
 beacon_node_validator_monitor_auto: false
