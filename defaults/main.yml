@@ -70,7 +70,7 @@ beacon_node_rest_port: 5052
 # Light client data
 beacon_node_light_client_data_enabled: false
 beacon_node_light_client_data_serve: false
-beacon_node_light_client_data_import: 'none'
+beacon_node_light_client_data_import_mode: 'none'
 
 # How many hardware threads to use
 beacon_node_threads: 1
