@@ -41,7 +41,7 @@ beacon_node_validator_monitor_totals: false
 beacon_node_validator_monitor_pubkeys: []
 
 # For validation
-beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne", "kiln", "ropsten"]
+beacon_node_valid_network_names: ["pyrmont", "prater", "mainnet", "steklo", "nocturne", "kiln", "ropsten", "sepolia"]
 
 # connectivity settings
 beacon_node_public_address: '{{ ansible_host }}'
