@@ -7,7 +7,7 @@ This role provisions a [Nimbus](https://nimbus.status.im/) installation that can
 The role will:
 
 * Checkout a branch from the [nimbus-eth2](https://github.com/status-im/nimbus-eth2) repo
-* Build it using the [`build.sh`](./templates/build.sh.j2) Bash script
+* Build it using the [`build.sh`](./templates/scripts/build.sh.j2) Bash script
 * Schedule regular builds using [Systemd timers](https://www.freedesktop.org/software/systemd/man/systemd.timer.html)
 * Start a node by defining a [Systemd service](https://www.freedesktop.org/software/systemd/man/systemd.service.html)
 
