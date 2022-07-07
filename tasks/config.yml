@@ -1,35 +1,44 @@
 ---
 - name: Create service directory
   file:
-    path: '{{ beacon_node_data_path }}'
-    state: directory
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
-    mode: 0770
+    path:    '{{ beacon_node_data_path }}'
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    state:   directory
+    mode:    0770
 
 - name: Create netkey file (optional)
   copy:
-    dest: '{{ beacon_node_netkey_path }}'
+    dest:    '{{ beacon_node_netkey_path }}'
     content: '{{ beacon_node_netkey }}'
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
-    mode: 0600
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    mode:    0600
   when: beacon_node_netkey is defined
+
+- name: Create JWT secret file (optional)
+  copy:
+    dest:    '{{ beacon_node_web3_jwt_secret_path }}'
+    content: '{{ beacon_node_web3_jwt_secret }}'
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    mode:    0400
+  when: beacon_node_web3_jwt_secret is defined
 
 - name: Copy Ansible toggle script
   copy:
-    src: 'ansible_toggle.sh'
-    dest: '{{ beacon_node_service_path }}/ansible_enabled.sh'
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
-    mode: 0750
+    src:     'ansible_toggle.sh'
+    dest:    '{{ beacon_node_service_path }}/ansible_enabled.sh'
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    mode:    0750
 
 - name: Create helper scripts
   template:
-    src: '{{ item }}'
-    dest: '{{ beacon_node_service_path }}/{{ item|basename|replace(".j2", "") }}'
-    owner: '{{ beacon_node_user }}'
-    group: '{{ beacon_node_group }}'
-    mode: 0750
+    src:     '{{ item }}'
+    dest:    '{{ beacon_node_service_path }}/{{ item|basename|replace(".j2", "") }}'
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    mode:    0750
   with_fileglob:
     - 'templates/scripts/*'

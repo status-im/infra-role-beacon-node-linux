@@ -90,6 +90,8 @@ beacon_node_consul_metrics_service_name: '{{ beacon_node_consul_service_name }}-
 
 # WebSocket RPC URLs, Goerli for testnets
 beacon_node_web3_urls: ['wss://goerli.infura.io/ws/v3/6224f3c792cc443fafb64e70a98f871e']
+#beacon_node_web3_jwt_secret: ~
+beacon_node_web3_jwt_secret_path: '{{ beacon_node_service_path }}/jwt.hex'
 
 # Version of schema for SQLite slashing database.
 beacon_node_slashing_db_kind: 'v2'

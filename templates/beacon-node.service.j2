@@ -25,6 +25,9 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
 {% for url in beacon_node_web3_urls | mandatory %}
     --web3-url={{ url | mandatory }} \
 {% endfor %}
+{% if beacon_node_web3_jwt_secret is defined %}
+    --jwt-secret={{ beacon_node_web3_jwt_secret_path | mandatory }} \
+{% endif %}
     --log-format={{ beacon_node_log_format }} \
     --log-level={{ beacon_node_log_level }} \
     --nat=extip:{{ beacon_node_public_address }} \
