@@ -24,6 +24,13 @@ beacon_node_build_restarts_service: true
 beacon_node_build_nim_flags: >-
   -d:noSignalHandler
 
+# Periodic forced node resync.
+beacon_node_resync_service_name: 'resync-{{ beacon_node_service_name }}'
+beacon_node_resync_timer_enabled: false
+beacon_node_resync_timer_user: 'root'
+beacon_node_resync_timer_timeout: 43200
+beacon_node_resync_timer_frequency: 'weekly'
+
 beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2'
 beacon_node_repo_branch: 'stable'
 

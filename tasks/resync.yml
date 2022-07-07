@@ -1,0 +1,17 @@
+---
+- name: Create timer for resyncing node
+  include_role: name=systemd-timer
+  vars:
+    systemd_timer_description:  'Resync {{ beacon_node_service_name }}'
+    systemd_timer_name:         '{{ beacon_node_resync_service_name }}'
+    systemd_timer_enabled:      '{{ beacon_node_resync_timer_enabled }}'
+    systemd_timer_user:         '{{ beacon_node_resync_timer_user }}'
+    systemd_timer_frequency:    '{{ beacon_node_resync_timer_frequency }}'
+    systemd_timer_timeout_sec:  '{{ beacon_node_resync_timer_timeout }}'
+    systemd_timer_work_dir:     '{{ beacon_node_service_path }}'
+    systemd_timer_environment:
+      TRUSTED_REST_API: '{{ TODO }}'
+    systemd_timer_script_content: |
+      #!/usr/bin/env bash
+      sudo rm -fr "${SERVICE_DATA_PATH}/db"
+      {{ beacon_node_service_path }}/sync.sh $TRUSTED_REST_API
