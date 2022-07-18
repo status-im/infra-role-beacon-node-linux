@@ -1,11 +1,19 @@
 ---
 - name: Create service directory
   file:
-    path:    '{{ beacon_node_data_path }}'
+    path:    '{{ beacon_node_service_path }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
     state:   directory
     mode:    0770
+
+- name: Create data directory
+  file:
+    path:    '{{ beacon_node_data_path }}'
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    state:   directory
+    mode:    0700
 
 - name: Create netkey file (optional)
   copy:
