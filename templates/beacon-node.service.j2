@@ -28,8 +28,8 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
 {% if beacon_node_web3_jwt_secret is defined %}
     --jwt-secret={{ beacon_node_web3_jwt_secret_path | mandatory }} \
 {% endif %}
-{% if beacon_node_payload_builder is defined and beacon_node_payload_builder | length %}
-    --payload-builder={{ beacon_node_payload_builder }} \
+{% if beacon_node_payload_builder_enabled %}
+    --payload-builder={{ beacon_node_payload_builder_url | mandatory }} \
 {% endif %}
     --log-format={{ beacon_node_log_format }} \
     --log-level={{ beacon_node_log_level }} \
