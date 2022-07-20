@@ -4,7 +4,7 @@
     path:    '{{ beacon_node_service_path }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
-    state:   directory
+    state:   'directory'
     mode:    0770
 
 - name: Create data directory
@@ -12,26 +12,38 @@
     path:    '{{ beacon_node_data_path }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
-    state:   directory
+    state:   'directory'
+    mode:    0700
+
+- name: Create ERA directory symlink
+  when: |
+    beacon_node_era_symlink_path is defined
+    and beacon_node_era_symlink_path
+  file:
+    src:     '{{ beacon_node_era_symlink_path }}'
+    dest:    '{{ beacon_node_era_dir_path }}'
+    owner:   '{{ beacon_node_user }}'
+    group:   '{{ beacon_node_group }}'
+    state:   'link'
     mode:    0700
 
 - name: Create netkey file (optional)
+  when: beacon_node_netkey is defined
   copy:
     dest:    '{{ beacon_node_netkey_path }}'
     content: '{{ beacon_node_netkey }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
     mode:    0600
-  when: beacon_node_netkey is defined
 
 - name: Create JWT secret file (optional)
+  when: beacon_node_web3_jwt_secret is defined
   copy:
     dest:    '{{ beacon_node_web3_jwt_secret_path }}'
     content: '{{ beacon_node_web3_jwt_secret }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
     mode:    0400
-  when: beacon_node_web3_jwt_secret is defined
 
 - name: Copy Ansible toggle script
   copy:

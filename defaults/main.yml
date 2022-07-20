@@ -5,6 +5,8 @@ beacon_node_data_path: '{{ beacon_node_service_path }}/data'
 beacon_node_repo_path: '{{ beacon_node_service_path }}/repo'
 beacon_node_logs_link: '{{ beacon_node_service_path }}/logs'
 beacon_node_netkey_path: '{{ beacon_node_data_path }}/netkey'
+beacon_node_era_dir_path: '{{ beacon_node_data_path }}/era'
+#beacon_node_era_symlink_path: ~
 
 beacon_node_user: 'nimbus'
 beacon_node_group: 'staff'
