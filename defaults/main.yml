@@ -8,7 +8,8 @@ beacon_node_netkey_path: '{{ beacon_node_data_path }}/netkey'
 beacon_node_era_dir_path: '{{ beacon_node_data_path }}/era'
 #beacon_node_era_symlink_path: ~
 
-beacon_node_service_nofile_limit: 65536
+# Should be: nextPowerOfTwo(number_of_validators + 1024)
+beacon_node_service_nofile_limit: 16384
 beacon_node_user: 'nimbus'
 beacon_node_group: 'staff'
 
