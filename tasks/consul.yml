@@ -9,11 +9,10 @@
         port: '{{ beacon_node_listening_port }}'
         address: '{{ beacon_node_public_address }}'
         tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus']
-        # Disabled due to flakiness
-        #checks:
-        #  - name: '{{ beacon_node_consul_service_name }}-test-health'
-        #    type: 'http'
-        #    http: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
+        checks:
+          - id:   '{{ beacon_node_service_name }}-health'
+            type: 'http'
+            http: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
 
       - id: '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'
