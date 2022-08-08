@@ -7,6 +7,7 @@ After=network-online.target
 [Service]
 User={{ beacon_node_user }}
 Group={{ beacon_node_group }}
+LimitNOFILE={{ beacon_node_service_nofile_limit }}
 WorkingDirectory={{ beacon_node_service_path }}
 SyslogIdentifier={{ beacon_node_service_name }}
 SyslogFacility=local6
