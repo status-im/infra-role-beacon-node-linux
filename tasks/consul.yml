@@ -4,7 +4,7 @@
   vars:
     consul_config_name: '{{ beacon_node_consul_service_file_name }}'
     consul_services:
-      - id: '{{ beacon_node_service_name }}'
+      - id:   '{{ beacon_node_service_name }}'
         name: '{{ beacon_node_consul_service_name }}'
         port: '{{ beacon_node_listening_port }}'
         address: '{{ beacon_node_public_address }}'
@@ -14,7 +14,7 @@
             type: 'http'
             http: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
 
-      - id: '{{ beacon_node_service_name }}-metrics'
+      - id:   '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'
         port: '{{ beacon_node_metrics_port }}'
         address: '{{ ansible_local.wireguard.vpn_ip }}'
@@ -22,6 +22,6 @@
         meta:
           container: '{{ beacon_node_service_name }}'
         checks:
-          - name: '{{ beacon_node_consul_metrics_service_name }}-health'
+          - id:   '{{ beacon_node_service_name }}-metrics-health'
             type: 'http'
             http: 'http://localhost:{{ beacon_node_metrics_port }}/health'
