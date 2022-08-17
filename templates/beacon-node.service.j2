@@ -23,6 +23,9 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
 {% if beacon_node_web3_jwt_secret is defined %}
     --jwt-secret={{ beacon_node_web3_jwt_secret_path | mandatory }} \
 {% endif %}
+{% if beacon_node_suggested_fee_recipient is defined %}
+    --suggested-fee-recipient={{ beacon_node_suggested_fee_recipient | mandatory }} \
+{% endif %}
 {% if beacon_node_payload_builder_enabled %}
     --payload-builder={{ beacon_node_payload_builder_enabled | to_json }} \
     --payload-builder-url={{ beacon_node_payload_builder_url | mandatory }} \

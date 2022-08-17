@@ -93,6 +93,9 @@ beacon_node_dist_validators_path: '{{ beacon_node_data_path }}'
 #beacon_node_dist_validators_start: ~
 #beacon_node_dist_validators_end: ~
 
+# Suggests it to the Execution Layer client.
+#beacon_node_suggested_fee_recipient: ~
+
 # Consul service definition settings
 beacon_node_consul_service_name: 'beacon-node'
 beacon_node_consul_service_file_name: '{{ beacon_node_service_name | replace("-", "_") }}'
