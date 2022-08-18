@@ -2,15 +2,17 @@
 - name: Create timer for resyncing node
   include_role: name=systemd-timer
   vars:
-    systemd_timer_description:  'Resync {{ beacon_node_service_name }}'
-    systemd_timer_name:         '{{ beacon_node_resync_timer_service_name }}'
-    systemd_timer_enabled:      '{{ beacon_node_resync_timer_enabled }}'
-    systemd_timer_user:         '{{ beacon_node_resync_timer_user }}'
-    systemd_timer_group:        '{{ beacon_node_resync_timer_group }}'
-    systemd_timer_frequency:    '{{ beacon_node_resync_timer_frequency }}'
-    systemd_timer_timeout_sec:  '{{ beacon_node_resync_timer_timeout }}'
-    systemd_timer_work_dir:     '{{ beacon_node_service_path }}'
-    systemd_timer_exec_start_pre: ['rm -fr {{ beacon_node_data_path }}/db']
-    systemd_timer_script_path: '{{ beacon_node_service_path }}/sync.sh'
-    systemd_timer_script_args: '{{ beacon_node_resync_timer_trusted_api_url | mandatory }}'
+    systemd_timer_description:     'Resync {{ beacon_node_service_name }}'
+    systemd_timer_name:            '{{ beacon_node_resync_timer_service_name }}'
+    systemd_timer_enabled:         '{{ beacon_node_resync_timer_enabled }}'
+    systemd_timer_user:            '{{ beacon_node_resync_timer_user }}'
+    systemd_timer_group:           '{{ beacon_node_resync_timer_group }}'
+    systemd_timer_frequency:       '{{ beacon_node_resync_timer_frequency }}'
+    systemd_timer_timeout_sec:     '{{ beacon_node_resync_timer_timeout }}'
+    systemd_timer_work_dir:        '{{ beacon_node_service_path }}'
+    systemd_timer_script_path:     '{{ beacon_node_service_path }}/sync.sh'
+    systemd_timer_script_args:     '{{ beacon_node_resync_timer_trusted_api_url | mandatory }}'
+    systemd_timer_unit_conflicts:  '{{ beacon_node_service_name }}.service' # Should stop it.
+    systemd_timer_exec_start_pre:  ['rm -r {{ beacon_node_data_path }}/db']
+    systemd_timer_exec_stop_post:  ['systemctl start {{ beacon_node_service_name }}']
     systemd_timer_start_on_creation: false

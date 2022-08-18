@@ -28,7 +28,7 @@ beacon_node_build_nim_flags: >-
 beacon_node_resync_enabled: false
 beacon_node_resync_timer_enabled: true
 beacon_node_resync_timer_service_name: 'resync-{{ beacon_node_service_name }}'
-beacon_node_resync_timer_user: '{{ beacon_node_user }}'
+beacon_node_resync_timer_user: 'root' # Needed too start service back up.
 beacon_node_resync_timer_group: '{{ beacon_node_group }}'
 beacon_node_resync_timer_timeout: 43200
 beacon_node_resync_timer_frequency: 'weekly'
