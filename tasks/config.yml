@@ -1,31 +1,15 @@
 ---
-- name: Create service directory
+- name: Create service directories
   file:
-    path:    '{{ beacon_node_service_path }}'
-    owner:   '{{ beacon_node_user }}'
-    group:   '{{ beacon_node_group }}'
-    state:   'directory'
-    mode:    0770
-
-- name: Create data directory
-  file:
-    path:    '{{ beacon_node_data_path }}'
-    owner:   '{{ beacon_node_user }}'
-    group:   '{{ beacon_node_group }}'
-    state:   'directory'
-    mode:    0700
-
-- name: Create ERA directory symlink
-  when: |
-    beacon_node_era_symlink_path is defined
-    and beacon_node_era_symlink_path
-  file:
-    src:     '{{ beacon_node_era_symlink_path }}'
-    dest:    '{{ beacon_node_era_dir_path }}'
-    owner:   '{{ beacon_node_user }}'
-    group:   '{{ beacon_node_group }}'
-    state:   'link'
-    mode:    0700
+    path:  '{{ item }}'
+    owner: '{{ beacon_node_user }}'
+    group: '{{ beacon_node_group }}'
+    state: 'directory'
+    mode:  0770
+  with_items:
+    - '{{ beacon_node_service_path }}'
+    - '{{ beacon_node_data_path }}'
+    - '{{ beacon_node_era_dir_path }}'
 
 - name: Create netkey file (optional)
   when: beacon_node_netkey is defined
