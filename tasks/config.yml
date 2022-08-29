@@ -5,7 +5,7 @@
     owner: '{{ beacon_node_user }}'
     group: '{{ beacon_node_group }}'
     state: 'directory'
-    mode:  0770
+    mode:  0750
   with_items:
     - '{{ beacon_node_service_path }}'
     - '{{ beacon_node_data_path }}'
