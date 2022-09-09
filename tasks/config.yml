@@ -1,15 +1,15 @@
 ---
 - name: Create service directories
   file:
-    path:  '{{ item }}'
+    path:  '{{ item.path }}'
     owner: '{{ beacon_node_user }}'
     group: '{{ beacon_node_group }}'
     state: 'directory'
-    mode:  0750
+    mode:  '{{ item.mode }}'
   with_items:
-    - '{{ beacon_node_service_path }}'
-    - '{{ beacon_node_data_path }}'
-    - '{{ beacon_node_era_dir_path }}'
+    - { path: '{{ beacon_node_service_path }}', mode: '0750' }
+    - { path: '{{ beacon_node_era_dir_path }}', mode: '0750' }
+    - { path: '{{ beacon_node_data_path }}',    mode: '0700' }
 
 - name: Create netkey file (optional)
   when: beacon_node_netkey is defined
