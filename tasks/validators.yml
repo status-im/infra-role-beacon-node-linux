@@ -2,11 +2,12 @@
 - name: 'Distribute validators and secrets'
   include_role: name=infra-role-dist-validators
   vars:
-    dist_validators_name: '{{ beacon_node_dist_validators_name }}'
-    dist_validators_start: '{{ beacon_node_dist_validators_start | mandatory }}'
-    dist_validators_end: '{{ beacon_node_dist_validators_end | mandatory }}'
-    dist_validators_path: '{{ beacon_node_dist_validators_path | mandatory }}'
-    dist_validators_user: '{{ beacon_node_user }}'
+    dist_validators_name:     '{{ beacon_node_dist_validators_name }}'
+    dist_validators_user:     '{{ beacon_node_user }}'
+    dist_validators_start:    '{{ beacon_node_dist_validators_start | mandatory }}'
+    dist_validators_end:      '{{ beacon_node_dist_validators_end | mandatory }}'
+    dist_validators_sec_path: '{{ beacon_node_dist_validators_sec_path | mandatory }}'
+    dist_validators_val_path: '{{ beacon_node_dist_validators_val_path | mandatory }}'
 
 - when: dist_validators_deployed is defined
   block:

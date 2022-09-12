@@ -17,6 +17,8 @@ RestartPreventExitStatus={{ beacon_node_doppelganger_exit_code }}
 ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --network={{ beacon_node_network }} \
     --data-dir={{ beacon_node_data_path }} \
+    --secrets-dir={{ beacon_node_secrets_path }} \
+    --validators-dir={{ beacon_node_validators_path }} \
     --era-dir={{ beacon_node_era_dir_path }} \
 {% for url in beacon_node_web3_urls | mandatory %}
     --web3-url={{ url | mandatory }} \

@@ -6,6 +6,8 @@ beacon_node_repo_path: '{{ beacon_node_service_path }}/repo'
 beacon_node_logs_link: '{{ beacon_node_service_path }}/logs'
 beacon_node_netkey_path: '{{ beacon_node_data_path }}/netkey'
 beacon_node_era_dir_path: '{{ beacon_node_data_path }}/era'
+beacon_node_secrets_path: '{{ beacon_node_data_path }}/secrets'
+beacon_node_validators_path: '{{ beacon_node_data_path }}/validators'
 
 # Should be: nextPowerOfTwo(number_of_validators + 1024)
 beacon_node_service_nofile_limit: 16384
@@ -89,7 +91,8 @@ beacon_node_threads: 1
 # Automatically distribute validators
 beacon_node_dist_validators_enabled: false
 beacon_node_dist_validators_name: '{{ beacon_node_network }}_deposits'
-beacon_node_dist_validators_path: '{{ beacon_node_data_path }}'
+beacon_node_dist_validators_sec_path: '{{ beacon_node_secrets_path }}'
+beacon_node_dist_validators_val_path: '{{ beacon_node_validators_path }}'
 #beacon_node_dist_validators_name: ~
 #beacon_node_dist_validators_start: ~
 #beacon_node_dist_validators_end: ~
