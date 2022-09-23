@@ -75,9 +75,12 @@ beacon_node_rpc_enabled: false
 beacon_node_rpc_address: '127.0.0.1'
 beacon_node_rpc_port: 9900
 
+# REST API
 beacon_node_rest_enabled: true
 beacon_node_rest_address: '127.0.0.1'
 beacon_node_rest_port: 5052
+beacon_node_rest_max_body_size: 16384
+beacon_node_rest_max_headers_size: 64
 
 # Light client data
 beacon_node_light_client_data_enabled: false
