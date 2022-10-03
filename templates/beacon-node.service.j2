@@ -79,7 +79,7 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
 {% endif %}
 {% endif %}
 {% for extra_flag in beacon_node_extra_flags %}
-    {{ extra_flag }}
+    {{ extra_flag }}{{ " \\" if not loop.last else "" }}
 {% endfor %}
 
 [Install]
