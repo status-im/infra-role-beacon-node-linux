@@ -44,6 +44,7 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --insecure-netkey-password=true \
     --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }} \
     --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }} \
+    --num-threads={{ beacon_node_threads }} \
     --rpc={{ beacon_node_rpc_enabled | to_json }} \
 {% if beacon_node_rpc_enabled %}
     --rpc-address={{ beacon_node_rpc_address }} \
@@ -77,7 +78,6 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --light-client-data-max-periods={{ beacon_node_light_client_data_max_periods }} \
 {% endif %}
 {% endif %}
-    --num-threads={{ beacon_node_threads }}
 {% for extra_flag in beacon_node_extra_flags %}
     {{ extra_flag }}
 {% endfor %}

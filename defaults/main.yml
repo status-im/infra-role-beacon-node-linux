@@ -89,7 +89,7 @@ beacon_node_light_client_data_import_mode: 'only-new'
 beacon_node_light_client_data_max_periods: -1 # -1 to use default
 
 # How many hardware threads to use
-beacon_node_threads: 1
+beacon_node_threads: 0
 
 # Automatically distribute validators
 beacon_node_dist_validators_enabled: false
