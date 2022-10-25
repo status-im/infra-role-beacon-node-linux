@@ -70,11 +70,6 @@ beacon_node_metrics_enabled: true
 beacon_node_metrics_address: '0.0.0.0'
 beacon_node_metrics_port: 9200
 
-# The JSON-RPC is deprecated and will be removed soon.
-beacon_node_rpc_enabled: false
-beacon_node_rpc_address: '127.0.0.1'
-beacon_node_rpc_port: 9900
-
 # REST API
 beacon_node_rest_enabled: true
 beacon_node_rest_address: '127.0.0.1'
