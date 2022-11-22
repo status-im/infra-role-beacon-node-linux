@@ -45,6 +45,6 @@
     dest:    '{{ beacon_node_service_path }}/{{ item|basename|replace(".j2", "") }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
-    mode:    0750
+    mode:    0775
   with_fileglob:
     - 'templates/scripts/*'
