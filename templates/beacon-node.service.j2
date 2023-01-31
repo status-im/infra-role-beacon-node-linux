@@ -20,6 +20,7 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --secrets-dir={{ beacon_node_secrets_path }} \
     --validators-dir={{ beacon_node_validators_path }} \
     --era-dir={{ beacon_node_era_dir_path }} \
+    --history={{ beacon_node_history_retention }} \
 {% for url in beacon_node_web3_urls | mandatory %}
     --web3-url={{ url | mandatory }} \
 {% endfor %}
