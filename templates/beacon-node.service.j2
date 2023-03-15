@@ -21,11 +21,11 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --validators-dir={{ beacon_node_validators_path }} \
     --era-dir={{ beacon_node_era_dir_path }} \
     --history={{ beacon_node_history_retention }} \
-{% for url in beacon_node_web3_urls | mandatory %}
-    --web3-url={{ url | mandatory }} \
+{% for url in beacon_node_exec_layer_urls | mandatory %}
+    --el={{ url | mandatory }} \
 {% endfor %}
-{% if beacon_node_web3_jwt_secret is defined %}
-    --jwt-secret={{ beacon_node_web3_jwt_secret_path | mandatory }} \
+{% if beacon_node_exec_layer_jwt_secret is defined %}
+    --jwt-secret={{ beacon_node_exec_layer_jwt_secret_path | mandatory }} \
 {% endif %}
 {% if beacon_node_suggested_fee_recipient is defined %}
     --suggested-fee-recipient={{ beacon_node_suggested_fee_recipient | mandatory }} \

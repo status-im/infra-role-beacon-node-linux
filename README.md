@@ -38,8 +38,10 @@ beacon_node_repo_branch: 'stable'
 beacon_node_network: 'mainnet'
 # optional setting for debug mode
 beacon_node_log_level: 'DEBUG'
-# Infura WebSocket URLs
-beacon_node_web3_urls: ['wss://mainnet.infura.io/ws/v3/123qwe123qwe123qwe']
+# WebSocket or HTTP URLs for execution layet Engine API
+beacon_node_exec_layer_urls:
+  - 'wss://erigon.internal.example.org:8551'
+  - 'http://geth.internal.example.org:8552'
 ```
 The order of WebSocket URLs matters. First is the default, the rest are fallbacks.
 

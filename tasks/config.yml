@@ -23,10 +23,10 @@
     mode:    0600
 
 - name: Create JWT secret file (optional)
-  when: beacon_node_web3_jwt_secret is defined
+  when: beacon_node_exec_layer_jwt_secret is defined
   copy:
-    dest:    '{{ beacon_node_web3_jwt_secret_path }}'
-    content: '{{ beacon_node_web3_jwt_secret }}'
+    dest:    '{{ beacon_node_exec_layer_jwt_secret_path }}'
+    content: '{{ beacon_node_exec_layer_jwt_secret }}'
     owner:   '{{ beacon_node_user }}'
     group:   '{{ beacon_node_group }}'
     mode:    0400

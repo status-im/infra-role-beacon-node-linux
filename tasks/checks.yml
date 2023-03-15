@@ -1,11 +1,11 @@
 ---
-- name: Verify web3 URLs are provided
+- name: Verify Exec layer Engine API URLs are provided
   assert:
-    that: '{{ beacon_node_web3_urls|length > 0 }}'
+    that: '{{ beacon_node_exec_layer_urls|length > 0 }}'
     quiet: true
     fail_msg: |
-      Providing Web3 URLs is required to sync with Eth1 chain!
-      Verify that the 'beacon_node_web3_urls' variable is set.
+      Providing Exec layer Engine API URLs is required to sync with Eth1 chain!
+      Verify that the 'beacon_node_exec_layer_urls' variable is set.
 
 - name: Verify network name
   assert:
