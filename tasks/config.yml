@@ -8,7 +8,7 @@
     mode:  '{{ item.mode }}'
   with_items:
     - { path: '{{ beacon_node_service_path }}',    mode: '0750' }
-    - { path: '{{ beacon_node_era_dir_path }}',    mode: '0750' }
+    - { path: '{{ beacon_node_era_dir_path }}',    mode: '0775' }
     - { path: '{{ beacon_node_secrets_path }}',    mode: '0700' }
     - { path: '{{ beacon_node_validators_path }}', mode: '0700' }
     - { path: '{{ beacon_node_data_path }}',       mode: '0700' }
