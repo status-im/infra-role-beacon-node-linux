@@ -1,12 +1,4 @@
 ---
-- name: Verify Exec layer Engine API URLs are provided
-  assert:
-    that: '{{ beacon_node_exec_layer_urls|length > 0 }}'
-    quiet: true
-    fail_msg: |
-      Providing Exec layer Engine API URLs is required to sync with Eth1 chain!
-      Verify that the 'beacon_node_exec_layer_urls' variable is set.
-
 - name: Verify network name
   assert:
     that: '{{ beacon_node_network in beacon_node_valid_network_names }}'

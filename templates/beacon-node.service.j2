@@ -21,9 +21,13 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --validators-dir={{ beacon_node_validators_path }} \
     --era-dir={{ beacon_node_era_dir_path }} \
     --history={{ beacon_node_history_retention }} \
+{% if beacon_node_exec_layer_urls|length == 0 %}
+    --no-el=true \
+{% else %}
 {% for url in beacon_node_exec_layer_urls | mandatory %}
     --el={{ url | mandatory }} \
 {% endfor %}
+{% endif %}
 {% if beacon_node_exec_layer_jwt_secret is defined %}
     --jwt-secret={{ beacon_node_exec_layer_jwt_secret_path | mandatory }} \
 {% endif %}
@@ -43,6 +47,7 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --netkey-file={{ beacon_node_netkey_path }} \
     --slashing-db-kind={{ beacon_node_slashing_db_kind }} \
     --insecure-netkey-password=true \
+    --sync-light-client={{ beacon_node_sync_light_client | to_json }} \
     --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }} \
     --doppelganger-detection={{ beacon_node_doppelganger_detection | to_json }} \
     --num-threads={{ beacon_node_threads }} \
