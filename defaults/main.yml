@@ -42,7 +42,7 @@ beacon_node_repo_branch: 'stable'
 beacon_node_network: 'mainnet'
 beacon_node_log_level: 'INFO' # TRACE DEBUG INFO NOTICE WARN ERROR FATAL NONE
 beacon_node_log_format: 'json' # auto colors nocolors json none
-beacon_node_history_retention: 'archive' # archive / pruned
+beacon_node_history_retention: 'prune' # archive / prune
 beacon_node_sync_light_client: false
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
