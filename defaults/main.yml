@@ -77,7 +77,7 @@ beacon_node_rest_enabled: true
 beacon_node_rest_address: '127.0.0.1'
 beacon_node_rest_port: 5052
 beacon_node_rest_max_body_size: 16384
-beacon_node_rest_max_headers_size: 64
+beacon_node_rest_max_headers_size: 128
 
 # Light client data
 beacon_node_light_client_data_enabled: false
