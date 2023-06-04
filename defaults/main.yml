@@ -76,6 +76,7 @@ beacon_node_metrics_port: 9200
 beacon_node_rest_enabled: true
 beacon_node_rest_address: '127.0.0.1'
 beacon_node_rest_port: 5052
+beacon_node_rest_allow_origin: '' # '' to use default
 beacon_node_rest_max_body_size: 16384
 beacon_node_rest_max_headers_size: 128
 
