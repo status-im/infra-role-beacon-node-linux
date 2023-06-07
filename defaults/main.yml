@@ -51,7 +51,7 @@ beacon_node_extra_flags: []
 
 # Validator Monitoring
 beacon_node_validator_monitor_auto: false
-beacon_node_validator_monitor_totals: false
+beacon_node_validator_monitor_details: false
 beacon_node_validator_monitor_pubkeys: []
 
 # For validation

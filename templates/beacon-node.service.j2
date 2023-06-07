@@ -69,8 +69,8 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
 {% if beacon_node_validator_monitor_auto %}
     --validator-monitor-auto \
 {% endif %}
-{% if beacon_node_validator_monitor_totals %}
-    --validator-monitor-totals \
+{% if beacon_node_validator_monitor_details %}
+    --validator-monitor-details \
 {% endif %}
 {% for pubkey in beacon_node_validator_monitor_pubkeys %}
     --validator-monitor-pubkey={{ pubkey }} \
