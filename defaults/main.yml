@@ -105,6 +105,9 @@ beacon_node_dist_validators_val_path: '{{ beacon_node_validators_path }}'
 beacon_node_consul_service_name: 'beacon-node'
 beacon_node_consul_service_file_name: '{{ beacon_node_service_name | replace("-", "_") }}'
 beacon_node_consul_metrics_service_name: '{{ beacon_node_consul_service_name }}-metrics'
+beacon_node_consul_success_before_passing: 0
+beacon_node_consul_failures_before_warning: 1
+beacon_node_consul_failures_before_critical: 2
 
 # WebSocket or HTTP URLs for execution layet Engine API
 beacon_node_exec_layer_urls: []

@@ -3,6 +3,9 @@
   include_role: name=consul-service
   vars:
     consul_config_name: '{{ beacon_node_consul_service_file_name }}'
+    consul_default_success_before_passing:   '{{ beacon_node_consul_success_before_passing }}'
+    consul_default_failures_before_warning:  '{{ beacon_node_consul_failures_before_warning }}'
+    consul_default_failures_before_critical: '{{ beacon_node_consul_failures_before_critical }}'
     consul_services:
       - id:   '{{ beacon_node_service_name }}'
         name: '{{ beacon_node_consul_service_name }}'
