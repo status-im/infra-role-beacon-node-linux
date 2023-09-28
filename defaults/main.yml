@@ -118,9 +118,6 @@ beacon_node_exec_layer_jwt_secret_path: '{{ beacon_node_service_path }}/jwt.hex'
 beacon_node_payload_builder_enabled: false
 #beacon_node_payload_builder_url: ~
 
-# Version of schema for SQLite slashing database.
-beacon_node_slashing_db_kind: 'v2'
-
 # Netkey file contents, optional.
 #beacon_node_netkey: '{"key":"json"}'
 

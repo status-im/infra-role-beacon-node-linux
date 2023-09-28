@@ -45,7 +45,6 @@ ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
     --udp-port={{ beacon_node_discovery_port }} \
     --max-peers={{ beacon_node_max_peers }} \
     --netkey-file={{ beacon_node_netkey_path }} \
-    --slashing-db-kind={{ beacon_node_slashing_db_kind }} \
     --insecure-netkey-password=true \
     --sync-light-client={{ beacon_node_sync_light_client | to_json }} \
     --subscribe-all-subnets={{ beacon_node_subscribe_all | to_json }} \
