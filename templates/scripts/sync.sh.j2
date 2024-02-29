@@ -14,7 +14,7 @@ if [[ -z "${TRUSTED_NODE_API_URL}" ]]; then
     exit 2
 fi
 
-sudo -u "${SERVICE_USER}" "${SERVICE_PATH}/repo/build/nimbus_beacon_node" \
+sudo -u "${SERVICE_USER}" "${SERVICE_PATH}/bin/nimbus_beacon_node" \
     trustedNodeSync \
     --backfill=false \
     --network="${NETWORK_NAME}" \

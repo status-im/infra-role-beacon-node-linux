@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# vim: ft=bash
+set -e
+
+GH_NIMBUS_RELEASE_URL="https://api.github.com/repos/status-im/nimbus-eth2/releases/latest"
+GH_NIMBUS_DOWNLOAD_URL="https://github.com/status-im/nimbus-eth2/releases/latest/download/"
+ARCH="amd64"
+BEACON_NODE_SERVICE="{{ beacon_node_service_name }}.service"
+BUILD_SERVICE="build-{{ beacon_node_service_name }}.service"
+BINARY_PATH="{{ beacon_node_bin_path }}"
+BEACON_NODE_PORT="{{ beacon_node_rest_port }}"
+#-----------------------------------------------------------------------------------
+
+function getCurrentVersion() {
+  result=$(${BINARY_PATH}/nimbus_beacon_node --version | grep Nimbus)
+  # The version is in format :`Nimbus beacon node vx.y.z-abcde-stateofus`
+  version=${result/Nimbus beacon node v}
+  echo "${version/-*-stateofus}"
+}
+
+function getLatestBuildName() {
+  buildName=$(curl -slf -X GET "${GH_NIMBUS_RELEASE_URL}" | jq -r '.assets[].name' | grep ".*_Linux_${ARCH}_.*.tar.gz")
+  echo "${buildName}"
+}
+
+function downloadAndInstallBinary() {
+  release_name=$1
+  echo "Downloading binary ${release_name}"
+  curl -X GET "${GH_NIMBUS_DOWNLOAD_URL}/${release_name}.tar.gz" -L -o "/tmp/${release_name}.tar.gz"
+  tar -xvf "/tmp/${release_name}.tar.gz" -C /tmp
+  cp "/tmp/${release_name}/build/nimbus_beacon_node" "${BINARY_PATH}/${release_name}"
+  ln -sf "${BINARY_PATH}/${release_name}" "${BINARY_PATH}/nimbus_beacon_node"
+  rm -r "/tmp/${release_name}"
+  rm "/tmp/${release_name}.tar.gz"
+}
+
+
+#-----------------------------------------------------------------------------------
+
+echo " >>> Update Start: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+cd "${SERVICE_PATH}"
+
+if [[ "${USER}" != "{{ beacon_node_user }}" ]]; then
+    echo "Incorrect user: ${USER}" >&2
+    echo "Expected: {{ beacon_node_user }}" >&2
+    exit 1
+fi
+
+if [[ $(systemctl is-active "${BUILD_SERVICE}" || true) == "active" ]]; then
+    echo " !!! Build service activate on this host, remove it to launch the update via binary download !"
+    exit 1
+fi
+
+currentVersion=$(getCurrentVersion)
+echo "Beacon node running on version ${currentVersion}"
+latestBinaryName=$(getLatestBuildName)
+echo "The latest Binary is ${latestBinaryName}"
+if [[ "${latestBinaryName}" == "nimbus-eth2_Linux_${ARCH}_${currentVersion}_"* ]]; then
+  echo " >>>  BN already running the last version."
+  exit 0
+else
+  echo " >>> Downloading the latest version"
+  downloadAndInstallBinary "${latestBinaryName/.tar.gz}"
+fi
+
+echo " >>> Restarting service ${BEACON_NODE_SERVICE} ..."
+sudo systemctl restart "${BEACON_NODE_SERVICE}"
+

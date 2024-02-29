@@ -18,24 +18,24 @@ function fetchChanges() {
 
 function buildBinaries() {
     # Control number of jobs used to lower impact on running nodes
-    export MAKEFLAGS="-j{{ beacon_node_build_jobs | int }}"
+    export MAKEFLAGS="-j{{ beacon_node_update_build_jobs | int }}"
 {% if beacon_node_nim_commit is defined and beacon_node_nim_commit != "" %}
     export NIM_COMMIT={{ beacon_node_nim_commit }}
 {% endif %}
 
     make update OVERRIDE=1
     make nimbus_beacon_node ncli_db \
-        LOG_LEVEL="{{ beacon_node_build_log_level }}" \
-        NIMFLAGS="{{ beacon_node_build_nim_flags }}"
+        LOG_LEVEL="{{ beacon_node_update_build_log_level }}" \
+        NIMFLAGS="{{ beacon_node_update_build_nim_flags }}"
 
     # Rename binaries to match commit they were built from.
     mv "build/nimbus_beacon_node" "build/nimbus_beacon_node_${COMMIT}"
 
     # Create a symbolic link to the latest version
-    ln -frs build/nimbus_beacon_node_${COMMIT} build/nimbus_beacon_node
+    ln -frs build/nimbus_beacon_node_${COMMIT} {{ beacon_node_bin_path }}/nimbus_beacon_node
 
     # Delete copies that are older than N days
-    find build -mtime +{{ beacon_node_build_days_kept }} -exec rm '{}' \+
+    find build -mtime +{{ beacon_node_update_build_days_kept }} -exec rm '{}' \+
 }
 
 #-------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ else
     buildBinaries
 fi
 
-{% if beacon_node_build_restarts_service %}
+{% if beacon_node_update_build_restarts_service %}
 # Avoid faiure on first Ansible run due to missing service.
 if [[ $(systemctl is-active "${SERVICE}" || true) == "inactive" ]]; then
     echo " !!! No service to restart!"
