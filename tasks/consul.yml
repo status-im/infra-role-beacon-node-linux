@@ -12,6 +12,13 @@
         port: '{{ beacon_node_listening_port }}'
         address: '{{ beacon_node_public_address }}'
         tags: ['{{ env }}.{{ stage }}', 'beacon', 'nimbus']
+        meta:
+          timestamp: '{{ ansible_date_time.iso8601 }}'
+          compiler:  '{{ beacon_node_ver.json.data.compiler              | default("unknown") }}'
+          version:   '{{ beacon_node_ver.json.data.version.split("/")[1] | default("unknown") }}'
+          enr:       '{{ beacon_node_id.json.data.enr                    | default("unknown") }}'
+          p2p_addr:  '{{ beacon_node_id.json.data.p2p_addresses[0]       | default("unknown") }}'
+          disc_addr: '{{ beacon_node_id.json.data.discovery_addresses[0] | default("unknown") }}'
         checks:
           - id:   '{{ beacon_node_service_name }}-health'
             type: 'http'

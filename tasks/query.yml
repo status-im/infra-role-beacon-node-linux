@@ -1,0 +1,21 @@
+---
+- name: 'Wait for REST port to be available'
+  wait_for:
+    port: '{{ beacon_node_rest_port }}'
+    delay: 5
+
+- name: 'Query REST API for node identity'
+  uri:
+    url: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/identity'
+    status_code: 200
+    body_format: json
+  register: beacon_node_id
+  ignore_errors: true
+
+- name: 'Query REST API for node version'
+  uri:
+    url: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
+    status_code: 200
+    body_format: json
+  register: beacon_node_ver
+  ignore_errors: true
