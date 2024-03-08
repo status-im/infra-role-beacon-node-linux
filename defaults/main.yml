@@ -35,6 +35,9 @@ beacon_node_resync_timer_timeout: 43200
 beacon_node_resync_timer_frequency: 'weekly'
 beacon_node_resync_timer_random_delay_sec: 86400 # day
 #beacon_node_resync_timer_trusted_api_url: ~
+#
+# Ability to prevernt restarts after service changes.
+beacon_node_service_restart: true
 
 beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2'
 beacon_node_repo_branch: 'stable'

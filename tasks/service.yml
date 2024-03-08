@@ -19,5 +19,7 @@
     enabled: true
     daemon_reload: true
     state: |-
-      {{ beacon_node_service_definition.changed
-       | ternary("restarted", "started") }}
+      {{ (
+        beacon_node_service_definition.changed and
+        beacon_node_service_restart
+      ) | ternary("restarted", "started") }}
