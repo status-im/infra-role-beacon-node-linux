@@ -1,6 +1,6 @@
 ---
 - name: Create timer for resyncing node
-  include_role: name=systemd-timer
+  include_role: name=infra-role-systemd-timer
   vars:
     systemd_timer_description:      'Resync {{ beacon_node_service_name }}'
     systemd_timer_name:             '{{ beacon_node_resync_timer_service_name }}'

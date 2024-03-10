@@ -1,6 +1,6 @@
 ---
 - name: 'Create Consul service definition'
-  include_role: name=consul-service
+  include_role: name=infra-role-consul-service
   vars:
     consul_config_name: '{{ beacon_node_consul_service_file_name }}'
     consul_default_success_before_passing:   '{{ beacon_node_consul_success_before_passing }}'

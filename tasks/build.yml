@@ -14,7 +14,7 @@
   register: beacon_node_bin
 
 - name: Create timer for build script
-  include_role: name=systemd-timer
+  include_role: name=infra-role-systemd-timer
   vars:
     systemd_timer_name: '{{ beacon_node_build_service_name }}'
     systemd_timer_user: '{{ beacon_node_user }}'

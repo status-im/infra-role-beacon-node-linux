@@ -1,6 +1,6 @@
 ---
 - name: Open Libp2p ports in iptables
-  include_role: name=open-ports
+  include_role: name=infra-role-open-ports
   vars:
     open_ports_default_comment: '{{ beacon_node_service_name }}'
     open_ports_default_chain: 'SERVICES'
