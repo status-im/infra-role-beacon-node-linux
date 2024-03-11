@@ -1,0 +1,13 @@
+---
+- name: Create monitor service file
+  template:
+    src: 'monitor.service.j2'
+    dest: '/etc/systemd/system/{{ beacon_node_consul_monitor_name }}.service'
+    mode: 0644
+  register: beacon_node_service_definition
+
+- name: Enable monitor service
+  systemd:
+    name: '{{ beacon_node_consul_monitor_name }}.service'
+    enabled: true
+    daemon_reload: true

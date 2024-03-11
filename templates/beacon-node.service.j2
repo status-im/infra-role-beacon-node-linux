@@ -1,8 +1,12 @@
 [Unit]
 Description=Nimbus Beacon Node on {{ beacon_node_network }} network ({{ beacon_node_repo_branch }})
-Documentation=https://github.com/status-im/nimbus-eth2
+Documentation=https://github.com/status-im/infra-role-beacon-node-linux
 Requires=network-online.target
 After=network-online.target
+{% if beacon_node_consul_monitor_enabled %}
+OnFailure=monitor-{{ beacon_node_service_name }}.service
+OnSuccess=monitor-{{ beacon_node_service_name }}.service
+{% endif %}
 
 [Service]
 User={{ beacon_node_user }}
@@ -14,7 +18,7 @@ SyslogFacility=local6
 SyslogLevel=debug
 Restart=on-failure
 RestartPreventExitStatus={{ beacon_node_doppelganger_exit_code }}
-ExecStart={{ beacon_node_repo_path }}/build/nimbus_beacon_node \
+ExecStart={{ beacon_node_binary_path }} \
     --network={{ beacon_node_network }} \
     --data-dir={{ beacon_node_data_path }} \
     --secrets-dir={{ beacon_node_secrets_path }} \

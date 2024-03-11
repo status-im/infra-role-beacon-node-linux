@@ -45,6 +45,11 @@ beacon_node_exec_layer_urls:
 ```
 The order of WebSocket URLs matters. First is the default, the rest are fallbacks.
 
+There's also a [container monitor service](./MONITOR.md).
+```yaml
+nim_waku_monitor_enabled: true
+```
+
 # Management
 
 ## Service
