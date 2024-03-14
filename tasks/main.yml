@@ -6,6 +6,8 @@
     - include_tasks: user.yml
     - include_tasks: config.yml
     - include_tasks: update.yml
+    # Temporary task, remove when service to build BN has been renamed in all fleet
+    - include_tasks: clean-build-service.yml 
     - include_tasks: service.yml
     - include_tasks: resync.yml
       when: beacon_node_resync_enabled

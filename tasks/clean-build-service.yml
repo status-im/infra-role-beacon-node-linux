@@ -1,0 +1,36 @@
+---
+- name: Check if systemd timer definition is present
+  stat:
+    path: '/etc/systemd/system/build-{{ beacon_node_service_name}}.timer'
+  register: systemd_service_build_timer
+
+- name: Check if the service is running
+  systemd_service:
+    name: 'build-{{ beacon_node_service_name }}.timer'
+    state: 'stopped'
+    enabled: false
+  when: systemd_service_build_timer.stat.exists
+
+# Allow to run the beacon node if the binary is build from source 
+- name: Create a symlink with the build binary
+  file:
+    src: '{{ beacon_node_repo_path }}/build/nimbus_beacon_node'
+    dest: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
+    state: link
+  when: beacon_node_update_build 
+
+  
+- name: Remove build service, timer and consul definition
+  file:
+    path: '{{ item }}'
+    state: absent
+  with_items:
+      - '/etc/systemd/system/build-{{ beacon_node_service_name }}.service'
+      - '/etc/systemd/system/build-{{ beacon_node_service_name }}.timer'
+      - '/etc/consul/service_build_{{ beacon_node_network }}_{{ beacon_node_repo_branch }}_timer.json'
+
+- name: Restart Consul service
+  systemd:
+    name: consul.service
+    state: reloaded
+

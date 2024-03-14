@@ -7,7 +7,7 @@
     force: true
     update: true
   become_user: '{{ beacon_node_user }}'
-  when: beacon_node_update_method
+  when: beacon_node_update_build
 
 - name: Check if node binary exists
   stat:
@@ -29,5 +29,5 @@
     systemd_timer_timeout_sec:        '{{ beacon_node_update_timer_timeout }}'
     systemd_timer_work_dir:           '{{ beacon_node_service_path }}'
     systemd_timer_script_path: |-        
-      {{ beacon_node_update_build_script if beacon_node_update_update_build 
+      {{ beacon_node_update_build_script if beacon_node_update_build == true
         else beacon_node_update_download_script }}
