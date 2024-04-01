@@ -29,7 +29,7 @@ function downloadAndInstallBinary() {
   curl -X GET "${GH_NIMBUS_DOWNLOAD_URL}/${release_name}.tar.gz" -L -o "/tmp/${release_name}.tar.gz"
   tar -xvf "/tmp/${release_name}.tar.gz" -C /tmp
   cp "/tmp/${release_name}/build/nimbus_beacon_node" "${BINARY_PATH}/${release_name}"
-  ln -sf "${BINARY_PATH}/${release_name}" "${BINARY_PATH}/nimbus_beacon_node"
+  ln -frs "${BINARY_PATH}/${release_name}" "${BINARY_PATH}/nimbus_beacon_node"
   rm -r "/tmp/${release_name}"
   rm "/tmp/${release_name}.tar.gz"
 }
