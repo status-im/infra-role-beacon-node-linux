@@ -29,8 +29,11 @@
       - '/etc/systemd/system/build-{{ beacon_node_service_name }}.timer'
       - '/etc/consul/service_build_{{ beacon_node_network }}_{{ beacon_node_repo_branch }}_timer.json'
 
+- name: Reload systemctl services
+  systemd_service:
+    daemon_reload: true
+
 - name: Restart Consul service
   systemd:
     name: consul.service
     state: reloaded
-
