@@ -21,7 +21,7 @@ beacon_node_update_timer_enabled: true
 beacon_node_update_timer_timeout: 3600
 beacon_node_update_frequency: 'daily'
 # Determind if the update method will be by building the binary or downloading it
-beacon_node_update_build: true
+beacon_node_update_build: '{{ beacon_node_repo_branch != "stable" }}'
 # Update with Build method
 beacon_node_update_build_script: '{{ beacon_node_service_path }}/build.sh' 
 beacon_node_update_build_days_kept: 3
