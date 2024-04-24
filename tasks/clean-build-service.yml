@@ -11,15 +11,16 @@
     enabled: false
   when: systemd_service_build_timer.stat.exists
 
-# Allow to run the beacon node if the binary is build from source 
+# Allow to run the beacon node if the binary is build from source.
+# This can fail since build script no longer symlinks in the build dir.
 - name: Create a symlink with the build binary
+  ignore_errors: true
   file:
     src: '{{ beacon_node_repo_path }}/build/nimbus_beacon_node'
     dest: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
     state: link
   when: beacon_node_update_build 
 
-  
 - name: Remove build service, timer and consul definition
   file:
     path: '{{ item }}'
