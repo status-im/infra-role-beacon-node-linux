@@ -29,7 +29,7 @@ function downloadAndInstallBinary() {
   curl -s -X GET "${GH_NIMBUS_DOWNLOAD_URL}/${release_name}.tar.gz" -L -o "/tmp/${release_name}.tar.gz"
   tar -xvf "/tmp/${release_name}.tar.gz" -C /tmp "${release_name}/build/nimbus_beacon_node"
   mv "/tmp/${release_name}/build/nimbus_beacon_node" "${BINARY_PATH}/${release_name}"
-  ln -frs "${BINARY_PATH}/${release_name}" "${BINARY_PATH}/nimbus_beacon_node"
+  ln -vfrs "${BINARY_PATH}/${release_name}" "${BINARY_PATH}/nimbus_beacon_node"
   rm -r "/tmp/${release_name}" "/tmp/${release_name}.tar.gz"
 }
 
@@ -62,6 +62,16 @@ else
   downloadAndInstallBinary "${latestBinaryName/.tar.gz}"
 fi
 
-echo " >>> Restarting service ${BEACON_NODE_SERVICE} ..."
-sudo systemctl restart "${BEACON_NODE_SERVICE}"
+{% if beacon_node_update_restarts_service %}
+# Avoid faiure on first Ansible run due to missing service.
+if [[ $(systemctl is-active "${SERVICE}" || true) == "inactive" ]]; then
+    echo " !!! No service to restart!"
+    exit
+else
+    echo " >>> Restarting service..."
+    sudo systemctl restart "${SERVICE}"
+fi
 
+{% endif %}
+
+echo " >>> SUCCESS"
