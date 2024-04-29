@@ -24,7 +24,7 @@ function buildBinaries() {
 {% endif %}
 
     make update OVERRIDE=1
-    make nimbus_beacon_node ncli_db \
+    make {{ beacon_node_update_build_targets | join(" ") }} \
         LOG_LEVEL="{{ beacon_node_update_build_log_level }}" \
         NIMFLAGS="{{ beacon_node_update_build_nim_flags }}"
 
