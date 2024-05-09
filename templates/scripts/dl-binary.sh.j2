@@ -5,7 +5,7 @@ set -e
 GH_NIMBUS_RELEASE_URL="https://api.github.com/repos/status-im/nimbus-eth2/releases/latest"
 GH_NIMBUS_DOWNLOAD_URL="https://github.com/status-im/nimbus-eth2/releases/latest/download/"
 ARCH="amd64"
-BEACON_NODE_SERVICE="{{ beacon_node_service_name }}.service"
+SERVICE="{{ beacon_node_service_name }}.service"
 BUILD_SERVICE="build-{{ beacon_node_service_name }}.service"
 BINARY_PATH="{{ beacon_node_bin_path }}"
 BEACON_NODE_PORT="{{ beacon_node_rest_port }}"
