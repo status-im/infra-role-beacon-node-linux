@@ -16,6 +16,7 @@ fi
 
 sudo -u "${SERVICE_USER}" "${SERVICE_PATH}/bin/nimbus_beacon_node" \
     trustedNodeSync \
+    --reindex=true \
     --backfill=false \
     --network="${NETWORK_NAME}" \
     --data-dir="${SERVICE_DATA}" \
