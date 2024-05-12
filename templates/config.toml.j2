@@ -1,0 +1,101 @@
+# Hostname: {{ dns_entry }}
+
+## WARNING: Do not put sensitive configuration here. Use service definition.
+
+### General
+network = {{ beacon_node_network | to_json }}
+history = {{ beacon_node_history_retention | to_json }}
+num-threads = {{ beacon_node_threads }}
+sync-light-client = {{ beacon_node_sync_light_client | to_json }}
+subscribe-all-subnets = {{ beacon_node_subscribe_all | to_json }}
+
+### Logs
+log-format = {{ beacon_node_log_format | to_json }}
+log-level = {{ beacon_node_log_level | to_json }}
+
+### Network
+nat = "extip:{{ beacon_node_public_address }}"
+tcp-port = {{ beacon_node_listening_port }}
+udp-port = {{ beacon_node_discovery_port }}
+max-peers = {{ beacon_node_max_peers }}
+
+### Exec Layer
+{% if beacon_node_exec_layer_urls|length == 0 %}
+no-el = true
+{% else %}
+{% if beacon_node_exec_layer_urls %}
+el = [
+{% for url in beacon_node_exec_layer_urls | mandatory %}
+  {{ url | mandatory | to_json }},
+{% endfor %}]
+{% else %}
+el = []
+{% endif %}
+{% endif %}
+
+### Dirs
+data-dir = {{ beacon_node_data_path | to_json }}
+secrets-dir = {{ beacon_node_secrets_path | to_json }}
+validators-dir = {{ beacon_node_validators_path | to_json }}
+era-dir = {{ beacon_node_era_dir_path | to_json }}
+
+### Security
+netkey-file = {{ beacon_node_netkey_path | to_json }}
+{% if beacon_node_exec_layer_jwt_secret is defined %}
+jwt-secret = {{ beacon_node_exec_layer_jwt_secret_path | mandatory | to_json }}
+{% endif %}
+doppelganger-detection = {{ beacon_node_doppelganger_detection | to_json }}
+insecure-netkey-password = true
+{% if beacon_node_payload_builder_enabled %}
+
+### Payload Builder
+payload-builder = {{ beacon_node_payload_builder_enabled | to_json | to_json }}
+payload-builder-url = {{ beacon_node_payload_builder_url | mandatory | to_json }}
+{% endif %}
+
+### REST API
+rest = {{ beacon_node_rest_enabled | to_json }}
+{% if beacon_node_rest_enabled %}
+rest-address = {{ beacon_node_rest_address | to_json }}
+rest-port = {{ beacon_node_rest_port }}
+{% if beacon_node_rest_allow_origin != '' %}
+rest-allow-origin = {{ beacon_node_rest_allow_origin | to_json }}
+{% endif %}
+rest-max-body-size = {{ beacon_node_rest_max_body_size | mandatory }}
+rest-max-headers-size = {{ beacon_node_rest_max_headers_size | mandatory }}
+{% endif %}
+
+### Metrics
+metrics = {{ beacon_node_metrics_enabled | to_json }}
+{% if beacon_node_metrics_enabled %}
+metrics-address = {{ beacon_node_metrics_address | to_json }}
+metrics-port = {{ beacon_node_metrics_port }}
+{% endif %}
+
+### Monitoring
+validator-monitor-auto = {{ beacon_node_validator_monitor_auto | to_json }}
+validator-monitor-details = {{ beacon_node_validator_monitor_details | to_json }}
+{% if beacon_node_validator_monitor_pubkeys %}
+validator-monitor-pubkey = [
+{% for pubkey in beacon_node_validator_monitor_pubkeys %}
+  {{ pubkey | to_json }},
+{% endfor %}]
+{% else %}
+validator-monitor-pubkey = []
+{% endif %}
+
+{% if beacon_node_light_client_data_enabled %}
+### Light Client
+light-client-data-serve = {{ beacon_node_light_client_data_serve | to_json }}
+light-client-data-import-mode = {{ beacon_node_light_client_data_import_mode | to_json }}
+{% if beacon_node_light_client_data_max_periods >= 0 %}
+light-client-data-max-periods = {{ beacon_node_light_client_data_max_periods }}
+{% endif %}
+{% endif -%}
+{% if beacon_node_extra_flags %}
+
+### Extra Flags
+{% for key,value in beacon_node_extra_flags %}
+{{ key }} = {{ value | to_json }}
+{% endfor %}
+{% endif %}

@@ -49,6 +49,7 @@ There's also a [container monitor service](./MONITOR.md).
 ```yaml
 nim_waku_monitor_enabled: true
 ```
+Most non-sensitive configuration resides in `conf/config.toml` file in service directory.
 
 # Management
 

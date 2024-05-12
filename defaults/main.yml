@@ -1,7 +1,10 @@
 ---
 beacon_node_service_name: 'beacon-node-{{ beacon_node_network }}-{{ beacon_node_repo_branch }}'
 beacon_node_service_path: '/data/{{ beacon_node_service_name }}'
+
 beacon_node_data_path: '{{ beacon_node_service_path }}/data'
+beacon_node_config_path: '{{ beacon_node_service_path }}/conf'
+beacon_node_config_file_path: '{{ beacon_node_config_path }}/config.toml'
 beacon_node_repo_path: '{{ beacon_node_service_path }}/repo'
 beacon_node_bin_path: '{{ beacon_node_service_path }}/bin'
 beacon_node_logs_link: '{{ beacon_node_service_path }}/logs'
@@ -11,6 +14,8 @@ beacon_node_secrets_path: '{{ beacon_node_data_path }}/secrets'
 beacon_node_validators_path: '{{ beacon_node_data_path }}/validators'
 beacon_node_binary_path: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
 
+# Ability to prevernt restarts after service changes.
+beacon_node_service_restart: true
 # Should be: nextPowerOfTwo(number_of_validators + 1024)
 beacon_node_service_nofile_limit: 16384
 beacon_node_user: 'nimbus'
@@ -44,9 +49,6 @@ beacon_node_resync_timer_frequency: 'weekly'
 beacon_node_resync_timer_random_delay_sec: 86400 # day
 #beacon_node_resync_timer_trusted_api_url: ~
 
-# Ability to prevernt restarts after service changes.
-beacon_node_service_restart: true
-
 beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2'
 beacon_node_repo_branch: 'stable'
 
@@ -58,7 +60,7 @@ beacon_node_sync_light_client: false
 beacon_node_subscribe_all: false
 beacon_node_doppelganger_detection: true
 beacon_node_doppelganger_exit_code: 129
-beacon_node_extra_flags: []
+beacon_node_extra_flags: {} # {agent-string: 'Taxation is theft.'}
 
 # Validator Monitoring
 beacon_node_validator_monitor_auto: false

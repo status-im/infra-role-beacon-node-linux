@@ -20,6 +20,7 @@
     daemon_reload: true
     state: |-
       {{ (
-        beacon_node_service_definition.changed and
+        beacon_node_config_file.changed or
+        beacon_node_service_definition.changed or
         beacon_node_service_restart
       ) | ternary("restarted", "started") }}
