@@ -25,7 +25,7 @@ ExecStart={{ beacon_node_binary_path }} \
 {% if beacon_node_suggested_fee_recipient is defined %}
     --suggested-fee-recipient={{ beacon_node_suggested_fee_recipient | mandatory }} \
 {% endif %}
-    --config-file={{ beacon_node_config_path }}
+    --config-file={{ beacon_node_config_dir }}
 
 [Install]
 WantedBy=multi-user.target

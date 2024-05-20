@@ -3,8 +3,8 @@ beacon_node_service_name: 'beacon-node-{{ beacon_node_network }}-{{ beacon_node_
 beacon_node_service_path: '/data/{{ beacon_node_service_name }}'
 
 beacon_node_data_path: '{{ beacon_node_service_path }}/data'
-beacon_node_config_path: '{{ beacon_node_service_path }}/conf'
-beacon_node_config_file_path: '{{ beacon_node_config_path }}/config.toml'
+beacon_node_config_dir: '{{ beacon_node_service_path }}/conf'
+beacon_node_config_file_path: '{{ beacon_node_config_dir }}/config.toml'
 beacon_node_repo_path: '{{ beacon_node_service_path }}/repo'
 beacon_node_bin_path: '{{ beacon_node_service_path }}/bin'
 beacon_node_logs_link: '{{ beacon_node_service_path }}/logs'
