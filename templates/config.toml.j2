@@ -49,7 +49,7 @@ insecure-netkey-password = true
 {% if beacon_node_payload_builder_enabled %}
 
 ### Payload Builder
-payload-builder = {{ beacon_node_payload_builder_enabled | to_json | to_json }}
+payload-builder = {{ beacon_node_payload_builder_enabled | to_json }}
 payload-builder-url = {{ beacon_node_payload_builder_url | mandatory | to_json }}
 {% endif %}
 
