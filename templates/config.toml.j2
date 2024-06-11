@@ -95,7 +95,7 @@ light-client-data-max-periods = {{ beacon_node_light_client_data_max_periods }}
 {% if beacon_node_extra_flags %}
 
 ### Extra Flags
-{% for key,value in beacon_node_extra_flags %}
+{% for key,value in beacon_node_extra_flags.items() %}
 {{ key }} = {{ value | to_json }}
 {% endfor %}
 {% endif %}
