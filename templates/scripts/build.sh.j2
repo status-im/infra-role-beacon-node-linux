@@ -76,7 +76,7 @@ fi
 
 {% if beacon_node_update_restarts_service %}
 # Avoid faiure on first Ansible run due to missing service.
-if [[ $(systemctl is-active "${SERVICE}" || true) == "inactive" ]]; then
+if [[ $(systemctl is-enabled "${SERVICE}" || true) != "enabled" ]]; then
     echo " !!! No service to restart!"
     exit
 else
