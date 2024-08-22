@@ -15,7 +15,11 @@ beacon_node_validators_path: '{{ beacon_node_data_path }}/validators'
 beacon_node_binary_path: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
 
 # Ability to prevernt restarts after service changes.
-beacon_node_service_restart: false
+# This is higher priority, than force_restart.
+beacon_node_service_allow_restart: true
+# Force restart service on each ansible playbook run
+beacon_node_service_force_restart: false
+
 # Should be: nextPowerOfTwo(number_of_validators + 1024)
 beacon_node_service_nofile_limit: 16384
 beacon_node_user: 'nimbus'

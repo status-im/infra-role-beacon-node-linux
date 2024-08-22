@@ -14,13 +14,15 @@
   register: beacon_node_service_definition
 
 - name: Reload and restart the service
-  systemd:
+  systemd_service:
     name: '{{ beacon_node_service_name }}.service'
     enabled: true
     daemon_reload: true
     state: |-
       {{ (
+        beacon_node_service_allow_restart
+      and (
         beacon_node_config_file.changed or
         beacon_node_service_definition.changed or
-        beacon_node_service_restart
-      ) | ternary("restarted", "started") }}
+        beacon_node_service_force_restart
+      )) | ternary("restarted", "started") }}

@@ -15,6 +15,6 @@
       debug: msg='Deployed {{ dist_validators_deployed }} validators'
 
     - name: 'Restart beacon node service'
-      service:
+      systemd_service:
         name: '{{ beacon_node_service_name }}.service'
-        state: 'restarted'
+        state: '{{ beacon_node_service_allow_restart | ternary("restarted", "started") }}'
