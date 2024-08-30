@@ -1,11 +1,26 @@
 ---
-- name: Open Libp2p ports in iptables
+- name: Open node ports in NFTables
   include_role: name=infra-role-open-ports
   vars:
-    open_ports_default_comment: '{{ beacon_node_service_name }}'
-    open_ports_default_chain: 'SERVICES'
     open_ports_list:
-      - { port: '{{ beacon_node_listening_port }}', protocol: 'tcp', state: '{{ beacon_node_firewall_libp2p_open | ternary("present", "absent") }}' }
-      - { port: '{{ beacon_node_discovery_port }}', protocol: 'udp', state: '{{ beacon_node_firewall_libp2p_open | ternary("present", "absent") }}' }
-      - { port: '{{ beacon_node_metrics_port }}', chain: 'VPN', ipset: 'metrics.hq', state: '{{ beacon_node_firewall_metrics_open | ternary("present", "absent") }}' }
-      - { port: '{{ beacon_node_rest_port }}',    chain: 'VPN', ipset: '{{ env }}.{{ stage }}' }
+      beacon-node:
+        - port: '{{ beacon_node_listening_port }}'
+          protocol: 'tcp'
+          disabled: '{{ not beacon_node_firewall_libp2p_open }}'
+          comment: 'Beacon Node LibP2P'
+
+        - port: '{{ beacon_node_discovery_port }}'
+          protocol: 'udp'
+          disabled: '{{ not beacon_node_firewall_libp2p_open }}'
+          comment: 'Beacon Node Discovery'
+
+        - port: '{{ beacon_node_metrics_port }}'
+          iifname: 'wg0'
+          ipset: 'metrics.hq'
+          disabled: '{{ not beacon_node_firewall_metrics_open }}'
+          comment: 'Beacon Node Metrics'
+
+        - port: '{{ beacon_node_rest_port }}'
+          iifname: 'wg0'
+          ipset: '{{ env }}.{{ stage }}'
+          comment: 'Beacon Node REST API'
