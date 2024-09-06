@@ -13,7 +13,6 @@
       when: beacon_node_resync_enabled
     - import_tasks: validators.yml
       when: beacon_node_dist_validators_enabled
-    - include_tasks: firewall.yml
     - include_tasks: query.yml
     - include_tasks: consul.yml
     - include_tasks: monitor.yml

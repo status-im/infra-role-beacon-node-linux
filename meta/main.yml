@@ -13,9 +13,6 @@ galaxy_info:
     - name: infra-role-consul-service
       src: git+git@github.com:status-im/infra-role-consul-service.git
       scm: git
-    - name: infra-role-open-ports
-      src: git+git@github.com:status-im/infra-role-open-ports.git
-      scm: git
     - name: infra-role-systemd-timer
       src: git+git@github.com:status-im/infra-role-systemd-timer.git
       scm: git
