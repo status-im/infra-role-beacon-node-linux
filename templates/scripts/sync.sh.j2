@@ -16,8 +16,8 @@ fi
 
 sudo -u "${SERVICE_USER}" "${SERVICE_PATH}/bin/nimbus_beacon_node" \
     trustedNodeSync \
-    --reindex=true \
-    --backfill=false \
+    --reindex={{ beacon_node_resync_reindex | to_json }} \
+    --backfill={{ beacon_node_resync_backfill | to_json }} \
     --network="${NETWORK_NAME}" \
     --data-dir="${SERVICE_DATA}" \
     --trusted-node-url="${TRUSTED_NODE_API_URL}"
