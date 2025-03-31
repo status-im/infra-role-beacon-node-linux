@@ -74,7 +74,7 @@ beacon_node_validator_monitor_details: false
 beacon_node_validator_monitor_pubkeys: []
 
 # For validation
-beacon_node_valid_network_names: ["mainnet", "prater", "sepolia", "holesky"]
+beacon_node_valid_network_names: ["mainnet", "prater", "sepolia", "holesky", "hoodi"]
 
 # connectivity settings
 beacon_node_public_address: '{{ ansible_host }}'
