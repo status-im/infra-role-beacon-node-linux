@@ -40,11 +40,12 @@ function buildBinaries() {
 
 #-------------------------------------------------------------------------------
 
-BRANCH="{{ beacon_node_repo_branch }}"
+BRANCH="${1:-{{ beacon_node_repo_branch }}}"
 SERVICE="{{ beacon_node_service_name }}.service"
 SERVICE_PATH="{{ beacon_node_service_path }}"
 
 echo " >>> Build Start: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+echo " >>> Building branch: ${BRANCH}"
 cd "${SERVICE_PATH}"
 
 if [[ "${USER}" != "{{ beacon_node_user }}" ]]; then
