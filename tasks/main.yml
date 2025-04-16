@@ -3,17 +3,34 @@
 - when: not beacon_node_ansible_disabled
   block:
     - include_tasks: install.yml
+      tags: ['beacon-node', 'beacon-node:install']
+
     - include_tasks: user.yml
+      tags: ['beacon-node', 'beacon-node:user']
+
     - include_tasks: config.yml
+      tags: ['beacon-node', 'beacon-node:config']
+
     - include_tasks: update.yml
-    # Temporary task, remove when service to build BN has been renamed in all fleet
-    - include_tasks: clean-build-service.yml 
+      tags: ['beacon-node', 'beacon-node:update']
+
     - include_tasks: service.yml
+      tags: ['beacon-node', 'beacon-node:service']
+
     - include_tasks: resync.yml
+      tags: ['beacon-node', 'beacon-node:resync']
       when: beacon_node_resync_enabled
+
     - import_tasks: validators.yml
+      tags: ['beacon-node', 'beacon-node:install']
       when: beacon_node_dist_validators_enabled
+
     - include_tasks: query.yml
+      tags: ['beacon-node', 'beacon-node:query']
+
     - include_tasks: consul.yml
+      tags: ['beacon-node', 'beacon-node:consul']
+
     - include_tasks: monitor.yml
+      tags: ['beacon-node', 'beacon-node:monitor']
       when: beacon_node_consul_monitor_enabled
