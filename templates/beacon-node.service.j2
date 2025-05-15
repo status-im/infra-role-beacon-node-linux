@@ -17,7 +17,7 @@ SyslogIdentifier={{ beacon_node_service_name }}
 SyslogFacility=local6
 SyslogLevel=debug
 Restart=on-failure
-RestartPreventExitStatus={{ beacon_node_doppelganger_exit_code }}
+RestartPreventExitStatus={{ beacon_node_doppelganger_exit_code }} {{ beacon_node_validator_slashing_exit_code }}
 ExecStart={{ beacon_node_binary_path }} \
 {% if beacon_node_exec_layer_jwt_secret is defined %}
     --jwt-secret={{ beacon_node_exec_layer_jwt_secret_path | mandatory }} \
