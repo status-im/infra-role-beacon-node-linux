@@ -2,7 +2,9 @@
 - name: 'Wait for REST port to be available'
   wait_for:
     port: '{{ beacon_node_rest_port }}'
-    delay: 5
+    delay: 10
+    sleep: 5
+    timeout: 600
 
 - name: 'Query REST API for node identity'
   uri:
