@@ -2,7 +2,8 @@
 - name: 'Wait for REST port to be available'
   wait_for:
     port: '{{ beacon_node_rest_port }}'
-    delay: 10
+    # REST API starts before validators attaching, which makes API timeout.
+    delay: '{{ 120 if dist_validators_deployed is defined else 5 }}'
     sleep: 5
     timeout: 600
 
