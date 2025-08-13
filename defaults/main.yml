@@ -29,6 +29,7 @@ beacon_node_update_timer_name: 'update-{{ beacon_node_service_name }}'
 beacon_node_update_timer_enabled: true
 beacon_node_update_timer_timeout: 3600
 beacon_node_update_frequency: 'daily'
+beacon_node_update_start_on_creation: true
 beacon_node_update_restarts_service: true
 # Determind if the update method will be by building the binary or downloading it
 beacon_node_update_build: '{{ beacon_node_repo_branch != "stable" }}'
@@ -64,7 +65,7 @@ beacon_node_log_format: 'json' # auto colors nocolors json none
 beacon_node_history_retention: 'prune' # archive / prune
 beacon_node_sync_light_client: false
 beacon_node_subscribe_all: false
-beacon_node_suggested_gas_limit: 36000000
+beacon_node_suggested_gas_limit: 45000000
 beacon_node_doppelganger_detection: true
 beacon_node_doppelganger_exit_code: 129
 beacon_node_validator_slashing_exit_code: 198
