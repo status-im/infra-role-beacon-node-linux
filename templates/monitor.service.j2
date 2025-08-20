@@ -8,6 +8,9 @@ After=consul.service
 User={{ beacon_node_consul_monitor_user }}
 WorkingDirectory={{ beacon_node_service_path }}
 Restart=on-failure
+TimeoutStartSec={{ beacon_node_consul_monitor_start_delay_sec|int + 60 }}
+ExecStartPre=/bin/echo 'Sleeping {{ beacon_node_consul_monitor_start_delay_sec }} seconds...'
+ExecStartPre=/bin/sleep {{ beacon_node_consul_monitor_start_delay_sec }}
 ExecStart={{ beacon_node_service_path }}/monitor.sh
 
 # Security
