@@ -133,7 +133,7 @@ beacon_node_consul_failures_before_critical: 2
 beacon_node_consul_monitor_enabled: true
 beacon_node_consul_monitor_name: 'monitor-{{ beacon_node_service_name }}'
 beacon_node_consul_monitor_user: 'root'
-beacon_node_consul_monitor_start_delay_sec: 0
+beacon_node_consul_monitor_start_delay_sec: 60
 
 # WebSocket or HTTP URLs for execution layet Engine API
 beacon_node_exec_layer_urls: []
