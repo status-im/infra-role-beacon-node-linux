@@ -11,7 +11,7 @@
 
 - name: Check if node binary exists
   stat:
-    path: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
+    path: '{{ beacon_node_binary_path }}'
   register: beacon_node_bin
 
 - name: Create timer for Update script
