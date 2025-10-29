@@ -32,24 +32,24 @@ function buildBinaries() {
         LOG_LEVEL="{{ beacon_node_update_build_log_level }}" \
         NIMFLAGS="{{ beacon_node_update_build_nim_flags }}"
 
+    cd build/
+
+{% for target in beacon_node_update_build_targets %}
     # Rename binaries to match commit they were built from.
-{% for target in beacon_node_update_build_targets %}
     mv "build/{{ target }}" "build/{{ target }}_${COMMIT}"
-{% endfor %}
-
     # Create a symbolic link to the latest version
-{% for target in beacon_node_update_build_targets %}
-    ln -vfrs build/{{ target }}_${COMMIT} {{ beacon_node_bin_path }}/{{ target }}
-{% endfor %}
+    ln -vfrs "build/{{ target }}_${COMMIT}" "${INSTALL_PATH}/{{ target }}"
 
+{% endfor %}
     # Delete copies that are older than N days
-    find build -mtime +{{ beacon_node_update_build_days_kept }} -exec rm '{}' \+
+    find . -mtime +{{ beacon_node_update_build_days_kept }} -exec rm '{}' \+
 }
 
 #-------------------------------------------------------------------------------
 
 BRANCH="${1:-{{ beacon_node_repo_branch }}}"
 SERVICE="{{ beacon_node_service_name }}.service"
+INSTALL_PATH="{{ beacon_node_bin_path }}"
 SERVICE_PATH="{{ beacon_node_service_path }}"
 
 echo " >>> Build Start: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
