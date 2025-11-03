@@ -66,6 +66,7 @@ beacon_node_history_retention: 'prune' # archive / prune
 beacon_node_sync_light_client: false
 beacon_node_subscribe_all: false
 beacon_node_suggested_gas_limit: 45000000
+beacon_node_peerdas_supernode: false
 beacon_node_doppelganger_detection: true
 beacon_node_doppelganger_exit_code: 129
 beacon_node_validator_slashing_exit_code: 198
