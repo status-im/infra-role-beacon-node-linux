@@ -75,7 +75,7 @@ fi
 
 COMMIT=$(git rev-parse --short=8 HEAD)
 
-if binaryExists && [[ "$1" != "--force" ]]; then
+if binaryExists && [[ ! "${*}" =~ '^.* --force .*$' ]]; then
     echo " >>> Binary already built"
     exit 0
 else
