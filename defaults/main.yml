@@ -2,17 +2,17 @@
 beacon_node_service_name: 'beacon-node-{{ beacon_node_network }}-{{ beacon_node_repo_branch }}'
 beacon_node_service_path: '/data/{{ beacon_node_service_name }}'
 
-beacon_node_data_path: '{{ beacon_node_service_path }}/data'
-beacon_node_config_dir: '{{ beacon_node_service_path }}/conf'
+beacon_node_data_path:        '{{ beacon_node_service_path }}/data'
+beacon_node_config_dir:       '{{ beacon_node_service_path }}/conf'
 beacon_node_config_file_path: '{{ beacon_node_config_dir }}/config.toml'
-beacon_node_repo_path: '{{ beacon_node_service_path }}/repo'
-beacon_node_bin_path: '{{ beacon_node_service_path }}/bin'
-beacon_node_logs_link: '{{ beacon_node_service_path }}/logs'
-beacon_node_netkey_path: '{{ beacon_node_data_path }}/netkey'
-beacon_node_era_dir_path: '{{ beacon_node_data_path }}/era'
-beacon_node_secrets_path: '{{ beacon_node_data_path }}/secrets'
-beacon_node_validators_path: '{{ beacon_node_data_path }}/validators'
-beacon_node_binary_path: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
+beacon_node_repo_path:        '{{ beacon_node_service_path }}/repo'
+beacon_node_bin_path:         '{{ beacon_node_service_path }}/bin'
+beacon_node_logs_link:        '{{ beacon_node_service_path }}/logs'
+beacon_node_netkey_path:      '{{ beacon_node_data_path }}/netkey'
+beacon_node_era_dir_path:     '{{ beacon_node_data_path }}/era'
+beacon_node_secrets_path:     '{{ beacon_node_data_path }}/secrets'
+beacon_node_validators_path:  '{{ beacon_node_data_path }}/validators'
+beacon_node_binary_path:      '{{ beacon_node_bin_path }}/nimbus_beacon_node'
 
 # Ability to prevernt restarts after service changes.
 # This is higher priority, than force_restart.
@@ -35,7 +35,7 @@ beacon_node_update_restarts_service: true
 beacon_node_update_build: '{{ beacon_node_repo_branch != "stable" }}'
 # Update with Build method
 beacon_node_update_build_script: '{{ beacon_node_service_path }}/build.sh'
-beacon_node_update_build_targets: ['nimbus_beacon_node']
+beacon_node_update_build_targets: ['nimbus']
 beacon_node_update_build_days_kept: 3
 beacon_node_update_build_jobs: '{{ ansible_processor_vcpus * 0.25 | round(0, "ceil") | int }}'
 beacon_node_update_build_log_level: 'TRACE'
@@ -56,7 +56,7 @@ beacon_node_resync_timer_frequency: 'weekly'
 beacon_node_resync_timer_random_delay_sec: 86400 # day
 #beacon_node_resync_timer_trusted_api_url: ~
 
-beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth2'
+beacon_node_repo_url: 'https://github.com/status-im/nimbus-eth1'
 beacon_node_repo_branch: 'stable'
 
 beacon_node_network: 'mainnet'
