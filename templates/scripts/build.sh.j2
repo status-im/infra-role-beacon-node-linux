@@ -1,60 +1,16 @@
 #!/usr/bin/env bash
 # vim: ft=sh
-set -e
-
-function headIsDetached() {
-    [[ $(git rev-parse --abbrev-ref --symbolic-full-name HEAD) == "HEAD" ]];
-}
-
-function binaryExists() {
-    ls -l \
-{% for target in beacon_node_update_build_targets %}
-        build/{{ target }}_${COMMIT} \
-{% endfor %}
-        2>&1 1>/dev/null
-}
-
-function fetchChanges() {
-    # We cannot use "git pull" in here, because history may be changed upstream
-    git fetch
-    git reset --hard "origin/${BRANCH}"
-}
-
-function buildBinaries() {
-    # Control number of jobs used to lower impact on running nodes
-    export MAKEFLAGS="-j{{ beacon_node_update_build_jobs | int }}"
-{% if beacon_node_nim_commit is defined and beacon_node_nim_commit != "" %}
-    export NIM_COMMIT={{ beacon_node_nim_commit }}
-{% endif %}
-
-    make update OVERRIDE=1
-    make {{ beacon_node_update_build_targets | join(" ") }} \
-        LOG_LEVEL="{{ beacon_node_update_build_log_level }}" \
-        NIMFLAGS="{{ beacon_node_update_build_nim_flags }}"
-
-    # Rename binaries to match commit they were built from.
-{% for target in beacon_node_update_build_targets %}
-    mv "build/{{ target }}" "build/{{ target }}_${COMMIT}"
-{% endfor %}
-
-    # Create a symbolic link to the latest version
-{% for target in beacon_node_update_build_targets %}
-    ln -vfrs build/{{ target }}_${COMMIT} {{ beacon_node_bin_path }}/{{ target }}
-{% endfor %}
-
-    # Delete copies that are older than N days
-    find build -mtime +{{ beacon_node_update_build_days_kept }} -exec rm '{}' \+
-}
-
-#-------------------------------------------------------------------------------
+set -euo pipefail
 
 BRANCH="${1:-{{ beacon_node_repo_branch }}}"
+REPO="{{ beacon_node_repo | default('status-im/nimbus-eth2') }}"
 SERVICE="{{ beacon_node_service_name }}.service"
 SERVICE_PATH="{{ beacon_node_service_path }}"
+BIN_PATH="{{ beacon_node_bin_path }}"
+TARGETS=({{ beacon_node_update_build_targets | join(" ") }})
 
 echo " >>> Build Start: $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 echo " >>> Building branch: ${BRANCH}"
-cd "${SERVICE_PATH}"
 
 if [[ "${USER}" != "{{ beacon_node_user }}" ]]; then
     echo "Incorrect user: ${USER}" >&2
@@ -62,26 +18,48 @@ if [[ "${USER}" != "{{ beacon_node_user }}" ]]; then
     exit 1
 fi
 
-# Build the Beacon node binaries
-pushd repo >/dev/null
-
-# Detached HEAD means we're probably on a tag
-if headIsDetached; then
-    echo " >>> Deatached HEAD, nothing to fetch."
-else
-    echo " >>> Fetching changes..."
-    fetchChanges
+# Get latest remote commit
+COMMIT=$(curl -sf "https://api.github.com/repos/${REPO}/commits/${BRANCH}" | jq -r '.sha[:8]')
+if [[ -z "${COMMIT}" || "${COMMIT}" == "null" ]]; then
+    echo " Failed to fetch remote commit!" >&2
+    exit 1
 fi
+echo " >>> Remote commit: ${COMMIT}"
 
-COMMIT=$(git rev-parse --short=8 HEAD)
+# Check if all binaries already exist
+ALL_EXIST=1
+for target in "${TARGETS[@]}"; do
+    [[ -f "${SERVICE_PATH}/build/${target}_${COMMIT}" ]] || ALL_EXIST=0
+done
 
-if binaryExists && [[ ! "${*}" =~ '^.* --force .*$' ]]; then
-    echo " >>> Binary already built"
+if [[ ${ALL_EXIST} -eq 1 ]]; then
+    echo " >>> Binaries already built for ${COMMIT}"
     exit 0
-else
-    echo " >>> Building binaries..."
-    buildBinaries
 fi
+
+# Build each target with Nix
+echo " >>> Building via nix..."
+mkdir -p "${SERVICE_PATH}/build" "${BIN_PATH}"
+
+for target in "${TARGETS[@]}"; do
+    echo " >>> Building ${target}..."
+    nix build "git+https://github.com/${REPO}?submodules=1&ref=${BRANCH}#${target}" \
+        --out-link "${SERVICE_PATH}/build/nix-result-${target}"
+
+    BIN_NAME="nimbus_${target}"
+    [[ -f "${SERVICE_PATH}/build/nix-result-${target}/bin/${BIN_NAME}" ]] \
+        || BIN_NAME="${target}"
+
+    cp -f "${SERVICE_PATH}/build/nix-result-${target}/bin/${BIN_NAME}" \
+          "${SERVICE_PATH}/build/${target}_${COMMIT}"
+    ln -vfrs "${SERVICE_PATH}/build/${target}_${COMMIT}" "${BIN_PATH}/${target}"
+
+    rm -f "${SERVICE_PATH}/build/nix-result-${target}"
+done
+
+# Cleanup old binaries
+find "${SERVICE_PATH}/build" -maxdepth 1 -name '*_*' \
+    -mtime +{{ beacon_node_update_build_days_kept }} -delete
 
 {% if beacon_node_update_restarts_service %}
 # Avoid faiure on first Ansible run due to missing service.
@@ -92,8 +70,6 @@ else
     echo " >>> Restarting service..."
     sudo systemctl restart "${SERVICE}"
 fi
-
 {% endif %}
-popd >/dev/null
 
-echo " >>> SUCCESS"
+echo " >>> SUCCESS (${COMMIT})"
