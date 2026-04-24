@@ -26,6 +26,11 @@
           - id:   '{{ beacon_node_service_name }}-health'
             type: 'http'
             http: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
+          - id:   '{{ beacon_node_service_name }}-commit-freshness'
+            type: 'script'
+            script: '{{ beacon_node_service_path }}/check-commit.sh'
+            interval: '30m'
+            timeout: '30s'
 
       - id:   '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'
