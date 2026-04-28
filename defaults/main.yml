@@ -151,3 +151,14 @@ beacon_node_payload_builder_enabled: false
 # Which version of Nim to use for the build
 # By default, it would use the one specified by the pinned nimbus-build-system
 beacon_node_nim_commit: ''
+
+# Commit drift check
+beacon_node_consul_commit_warn_age: 86400 # seconds = 1day
+beacon_node_consul_commit_crit_age: 172800 # seconds = 2 days
+
+beacon_node_nix_targets:
+  nimbus_beacon_node: beacon_node
+  nimbus_signing_node: signing_node
+  nimbus_validator_client: validator_client
+  ncli: ncli
+  ncli_db: ncli_db

@@ -14,22 +14,21 @@
     path: '{{ beacon_node_binary_path }}'
   register: beacon_node_bin
 
-- name: Create timer for Update script
+- name: Create timer for Nimbus update
   include_role: name=infra-role-systemd-timer
   vars:
-    systemd_timer_name:               '{{ beacon_node_update_timer_name }}'
-    systemd_timer_description:        'Update {{ beacon_node_service_name }}'
-    systemd_timer_user:               '{{ beacon_node_user }}'
-    systemd_timer_group:              '{{ beacon_node_group }}'
-    systemd_timer_start_on_creation: |-
-      {{ beacon_node_update_start_on_creation and
-        not beacon_node_bin.stat.exists }}
-    systemd_timer_ionice_class:       'idle'
-    systemd_timer_consul_warning:     true
-    systemd_timer_enabled:            '{{ beacon_node_update_timer_enabled }}'
-    systemd_timer_frequency:          '{{ beacon_node_update_frequency }}'
-    systemd_timer_timeout_sec:        '{{ beacon_node_update_timer_timeout }}'
-    systemd_timer_work_dir:           '{{ beacon_node_service_path }}'
-    systemd_timer_script_path: |-        
-      {{ beacon_node_update_build_script if beacon_node_update_build == true
-        else beacon_node_update_download_script }}
+    systemd_timer_name:              '{{ beacon_node_service_name }}-update-{{ item }}'
+    systemd_timer_description:       'Update {{ beacon_node_service_name }} {{ item }}'
+    systemd_timer_user:              '{{ beacon_node_user }}'
+    systemd_timer_group:             '{{ beacon_node_group }}'
+    systemd_timer_ionice_class:      'idle'
+    systemd_timer_enabled:           '{{ beacon_node_update_timer_enabled }}'
+    systemd_timer_frequency:         '{{ beacon_node_update_frequency }}'
+    systemd_timer_timeout_sec:       '{{ beacon_node_update_timer_timeout }}'
+    systemd_timer_work_dir:          '{{ beacon_node_service_path }}'
+    systemd_timer_script_path:       '/nix/var/nix/profiles/default/bin/nix'
+    systemd_timer_script_args:       'build --refresh "git+https://github.com/status-im/nimbus-eth2?submodules=1&ref={{ beacon_node_repo_branch }}#{{ beacon_node_nix_targets[item] }}" --out-link {{ beacon_node_service_path }}/result-{{ item }}'
+    systemd_timer_exec_start_post:
+      - '/bin/ln -vfrs {{ beacon_node_service_path }}/result-{{ item }}/bin/{{ item }} {{ beacon_node_bin_path }}/{{ item }}'
+      - '+/bin/systemctl restart {{ beacon_node_service_name }}.service'
+  loop: '{{ beacon_node_update_build_targets }}'
