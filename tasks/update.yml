@@ -1,14 +1,4 @@
 ---
-- name: Clone repo branch
-  git:
-    repo: '{{ beacon_node_repo_url }}'
-    version: '{{ beacon_node_repo_branch }}'
-    dest: '{{ beacon_node_repo_path }}'
-    force: true
-    update: true
-  become_user: '{{ beacon_node_user }}'
-  when: beacon_node_update_build
-
 - name: Check if node binary exists
   stat:
     path: '{{ beacon_node_binary_path }}'
@@ -17,8 +7,8 @@
 - name: Create timer for Nimbus update
   include_role: name=infra-role-systemd-timer
   vars:
-    systemd_timer_name:              '{{ beacon_node_service_name }}-update-{{ item }}'
-    systemd_timer_description:       'Update {{ beacon_node_service_name }} {{ item }}'
+    systemd_timer_name:              '{{ beacon_node_update_timer_name }}'
+    systemd_timer_description:       'Update {{ beacon_node_service_name }}'
     systemd_timer_user:              '{{ beacon_node_user }}'
     systemd_timer_group:             '{{ beacon_node_group }}'
     systemd_timer_ionice_class:      'idle'
@@ -27,8 +17,6 @@
     systemd_timer_timeout_sec:       '{{ beacon_node_update_timer_timeout }}'
     systemd_timer_work_dir:          '{{ beacon_node_service_path }}'
     systemd_timer_script_path:       '/nix/var/nix/profiles/default/bin/nix'
-    systemd_timer_script_args:       'build --refresh "git+https://github.com/status-im/nimbus-eth2?submodules=1&ref={{ beacon_node_repo_branch }}#{{ beacon_node_nix_targets[item] }}" --out-link {{ beacon_node_service_path }}/result-{{ item }}'
+    systemd_timer_script_args:       'build --refresh "{{ beacon_node_nix_repo_url }}?submodules=1&ref={{ beacon_node_repo_branch }}#beacon_node"'
     systemd_timer_exec_start_post:
-      - '/bin/ln -vfrs {{ beacon_node_service_path }}/result-{{ item }}/bin/{{ item }} {{ beacon_node_bin_path }}/{{ item }}'
       - '+/bin/systemctl restart {{ beacon_node_service_name }}.service'
-  loop: '{{ beacon_node_update_build_targets }}'
