@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# vim: ft=sh
+# Consul check: compare running node commit age against latest branch commit
+# Exit codes: 0=passing, 1=warning, 2=critical
+set -uo pipefail
+
+REPO="{{ beacon_node_repo | default('status-im/nimbus-eth2') }}"
+BRANCH="{{ beacon_node_repo_branch }}"
+REST_PORT="{{ beacon_node_rest_port }}"
+WARN_SECONDS="{{ beacon_node_consul_commit_warn_age | default(86400) }}"
+CRIT_SECONDS="{{ beacon_node_consul_commit_crit_age | default(172800) }}"
+
+# Get running commit from node
+RUNNING_COMMIT=$(curl -sf "http://localhost:${REST_PORT}/eth/v1/node/version" | jq -r '.data.version | split("-")[1]')
+if [[ -z "${RUNNING_COMMIT}" || "${RUNNING_COMMIT}" == "null" ]]; then
+    echo "CRITICAL: Unable to get commit from node version endpoint"
+    exit 2
+fi
+
+# Get latest branch commit
+BRANCH_DATA=$(curl -sf "https://api.github.com/repos/${REPO}/commits/${BRANCH}")
+LATEST_COMMIT=$(echo "${BRANCH_DATA}" | jq -r '.sha[:8]')
+if [[ -z "${LATEST_COMMIT}" || "${LATEST_COMMIT}" == "null" ]]; then
+    echo "CRITICAL: Unable to fetch branch ${BRANCH} from GitHub"
+    exit 2
+fi
+
+# Early exit if already up to date
+if [[ "${RUNNING_COMMIT}" == "${LATEST_COMMIT}" ]]; then
+    echo "OK: Running latest commit ${RUNNING_COMMIT}"
+    exit 0
+fi
+
+# Compare commit dates
+RUNNING_DATE=$(curl -sf "https://api.github.com/repos/${REPO}/commits/${RUNNING_COMMIT}" | jq -r '.commit.author.date')
+LATEST_DATE=$(echo "${BRANCH_DATA}" | jq -r '.commit.author.date')
+
+BEHIND_SECONDS=$(( $(date -d "${LATEST_DATE}" +%s) - $(date -d "${RUNNING_DATE}" +%s) ))
+BEHIND_HOURS=$((BEHIND_SECONDS / 3600))
+
+MSG="Running ${RUNNING_COMMIT}, branch head ${LATEST_COMMIT}, ${BEHIND_HOURS}h behind"
+
+if [[ ${BEHIND_SECONDS} -ge ${CRIT_SECONDS} ]]; then
+    echo "CRITICAL: ${MSG}"
+    exit 2
+elif [[ ${BEHIND_SECONDS} -ge ${WARN_SECONDS} ]]; then
+    echo "WARNING: ${MSG}"
+    exit 1
+else
+    echo "OK: ${MSG}"
+    exit 0
+fi

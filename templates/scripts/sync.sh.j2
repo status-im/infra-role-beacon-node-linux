@@ -4,7 +4,7 @@ set -e
 
 SERVICE_USER='{{ beacon_node_user | mandatory }}'
 SERVICE_NAME='{{ beacon_node_service_name | mandatory }}'
-SERVICE_PATH='{{ beacon_node_service_path | mandatory }}'
+BINARY_PATH='{{ beacon_node_binary_path | mandatory }}'
 SERVICE_DATA='{{ beacon_node_data_path | mandatory }}'
 NETWORK_NAME='{{ beacon_node_network | mandatory }}'
 
@@ -14,7 +14,7 @@ if [[ -z "${TRUSTED_NODE_API_URL}" ]]; then
     exit 2
 fi
 
-sudo -u "${SERVICE_USER}" "${SERVICE_PATH}/bin/nimbus_beacon_node" \
+sudo -u "${SERVICE_USER}" "${BINARY_PATH}" \
     trustedNodeSync \
     --reindex={{ beacon_node_resync_reindex | to_json }} \
     --backfill={{ beacon_node_resync_backfill | to_json }} \
