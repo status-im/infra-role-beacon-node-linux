@@ -13,7 +13,6 @@
     - { path: '{{ beacon_node_secrets_path }}',    mode: '0700' }
     - { path: '{{ beacon_node_validators_path }}', mode: '0700' }
     - { path: '{{ beacon_node_data_path }}',       mode: '0700' }
-    - { path: '{{ beacon_node_bin_path }}',        mode: '0755' }
 
 - name: Create netkey file (optional)
   when: beacon_node_netkey is defined
@@ -50,6 +49,14 @@
     mode:    0775
   with_fileglob:
     - 'templates/scripts/*'
+
+- name: Install check-commit-bn to /usr/bin
+  copy:
+    src:   'check-commit-bn.sh'
+    dest:  '/usr/bin/check-commit-bn'
+    owner: 'root'
+    group: 'root'
+    mode:  '0755'
 
 - name: Create node config
   template:

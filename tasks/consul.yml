@@ -26,6 +26,17 @@
           - id:   '{{ beacon_node_service_name }}-health'
             type: 'http'
             http: 'http://localhost:{{ beacon_node_rest_port }}/eth/v1/node/version'
+          - id:   '{{ beacon_node_service_name }}-commit-freshness'
+            type: 'script'
+            script: >-
+              check-commit-bn
+              -r {{ beacon_node_repo_url.split('/')[-2:] | join('/') }}
+              -b {{ beacon_node_repo_branch }}
+              -p {{ beacon_node_rest_port }}
+              -w {{ beacon_node_consul_commit_warn_age }}
+              -c {{ beacon_node_consul_commit_crit_age }}
+            interval: '30m'
+            timeout: '30s'
 
       - id:   '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'

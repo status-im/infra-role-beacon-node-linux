@@ -2,9 +2,6 @@
 - include_tasks: checks.yml
 - when: not beacon_node_ansible_disabled
   block:
-    - include_tasks: install.yml
-      tags: ['beacon-node', 'beacon-node:install']
-
     - include_tasks: user.yml
       tags: ['beacon-node', 'beacon-node:user']
 
