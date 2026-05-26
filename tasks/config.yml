@@ -50,13 +50,16 @@
   with_fileglob:
     - 'templates/scripts/*'
 
-- name: Install check-commit-bn to /usr/bin
+- name: Install build/check scripts to /usr/bin
   copy:
-    src:   'check-commit-bn.sh'
-    dest:  '/usr/bin/check-commit-bn'
+    src:   '{{ item.src }}'
+    dest:  '{{ item.dest }}'
     owner: 'root'
     group: 'root'
     mode:  '0755'
+  loop:
+    - { src: 'check-commit-bn.sh', dest: '/usr/local/bin/check-commit-bn' }
+    - { src: 'nix-build.sh',       dest: '/usr/local/bin/nix-build' }
 
 - name: Create node config
   template:
