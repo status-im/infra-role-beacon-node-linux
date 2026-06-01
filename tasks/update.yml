@@ -16,7 +16,7 @@
     systemd_timer_frequency:         '{{ beacon_node_update_frequency }}'
     systemd_timer_timeout_sec:       '{{ beacon_node_update_timer_timeout }}'
     systemd_timer_work_dir:          '{{ beacon_node_service_path }}'
-    systemd_timer_script_path:       '/usr/local/bin/nix-build'
-    systemd_timer_script_args:       '{{ beacon_node_repo_url }} {{ beacon_node_repo_branch }} {{ beacon_node_nix_flake_target }} --no-write-lock-file --refresh'
+    systemd_timer_script_path:       '/nix/var/nix/profiles/default/bin/nix'
+    systemd_timer_script_args:       'build --no-write-lock-file --refresh "git+{{ beacon_node_repo_url }}?submodules=1&ref={{ beacon_node_repo_branch }}#{{ beacon_node_nix_flake_target }}"'
     systemd_timer_exec_start_post:
       - '+/bin/systemctl restart {{ beacon_node_service_name }}.service'
