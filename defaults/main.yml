@@ -73,6 +73,8 @@ beacon_node_public_address: '{{ ansible_host }}'
 beacon_node_max_peers: 160
 beacon_node_discovery_port: 9000
 beacon_node_listening_port: 9000
+beacon_node_quic_enabled: false
+beacon_node_quic_port: 9001
 
 # Scraping of metrics done via VPN. Protected by firewall.
 beacon_node_metrics_enabled: true

@@ -19,6 +19,9 @@ log-level = {{ beacon_node_log_level | to_json }}
 nat = "extip:{{ beacon_node_public_address }}"
 tcp-port = {{ beacon_node_listening_port }}
 udp-port = {{ beacon_node_discovery_port }}
+{% if beacon_node_quic_enabled %}
+quic-port = {{ beacon_node_quic_port }}
+{% endif %}
 max-peers = {{ beacon_node_max_peers }}
 
 ### Exec Layer
