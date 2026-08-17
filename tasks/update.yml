@@ -21,4 +21,4 @@
     systemd_timer_script_args: |-
       build --no-write-lock-file --refresh "git+{{ beacon_node_repo_url }}?submodules=1&ref={{ beacon_node_repo_branch }}#{{ beacon_node_nix_flake_target }}"
     systemd_timer_exec_start_post:
-      - '+/bin/systemctl restart {{ beacon_node_service_name }}.service'
+      - '-+/bin/systemctl restart {{ beacon_node_service_name }}.service'
