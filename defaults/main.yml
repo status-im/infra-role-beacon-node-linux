@@ -120,6 +120,10 @@ beacon_node_consul_check_timeout: '5s'
 beacon_node_consul_success_before_passing: 0
 beacon_node_consul_failures_before_warning: 1
 beacon_node_consul_failures_before_critical: 2
+## Freshness custom vars
+beacon_node_consul_freshness_failure_before_critical: 0
+beacon_node_consul_freshness_failure_before_warning: 1
+beacon_node_consul_freshness_success_before_passing: 2
 # Monitor for updating Consul metadata
 beacon_node_consul_monitor_enabled: true
 beacon_node_consul_monitor_name: 'monitor-{{ beacon_node_service_name }}'

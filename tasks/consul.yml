@@ -37,6 +37,9 @@
               -c {{ beacon_node_consul_commit_crit_age }}
             interval: '30m'
             timeout: '30s'
+            success_before_passing: '{{ beacon_node_consul_freshness_success_before_passing }}'
+            failure_before_warning: '{{ beacon_node_consul_freshness_failure_before_warning }}'
+            failure_before_critical: '{{ beacon_node_consul_freshness_failure_before_critical }}'
 
       - id:   '{{ beacon_node_service_name }}-metrics'
         name: '{{ beacon_node_consul_metrics_service_name }}'
