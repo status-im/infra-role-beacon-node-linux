@@ -15,6 +15,9 @@ beacon_node_secrets_path: '{{ beacon_node_data_path }}/secrets'
 beacon_node_validators_path: '{{ beacon_node_data_path }}/validators'
 beacon_node_binary_path: '{{ beacon_node_bin_path }}/nimbus_beacon_node'
 
+beacon_node_flock_conflict_exit_code: 75
+beacon_node_service_restart_sec: 5
+
 # Ability to prevernt restarts after service changes.
 # This is higher priority, than force_restart.
 beacon_node_service_allow_restart: true
