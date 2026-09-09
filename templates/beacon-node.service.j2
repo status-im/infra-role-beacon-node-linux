@@ -17,8 +17,13 @@ SyslogIdentifier={{ beacon_node_service_name }}
 SyslogFacility=local6
 SyslogLevel=debug
 Restart=on-failure
+RestartSec={{ beacon_node_service_restart_sec }}
 RestartPreventExitStatus={{ beacon_node_doppelganger_exit_code }} {{ beacon_node_validator_slashing_exit_code }}
+{% if beacon_node_doppelganger_detection %}
 ExecStart={{ beacon_node_binary_path }} \
+{% else %}
+ExecStart=/usr/bin/flock --no-fork --nonblock --conflict-exit-code={{ beacon_node_flock_conflict_exit_code }} {{ beacon_node_flock_path }} {{ beacon_node_binary_path }} \
+{% endif %}
 {% if beacon_node_exec_layer_jwt_secret is defined %}
     --jwt-secret={{ beacon_node_exec_layer_jwt_secret_path | mandatory }} \
 {% endif %}
