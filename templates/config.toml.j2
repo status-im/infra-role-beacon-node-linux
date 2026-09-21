@@ -10,6 +10,9 @@ sync-light-client = {{ beacon_node_sync_light_client | to_json }}
 subscribe-all-subnets = {{ beacon_node_subscribe_all | to_json }}
 suggested-gas-limit = {{ beacon_node_suggested_gas_limit | to_json }}
 peerdas-supernode = {{ beacon_node_peerdas_supernode | to_json }}
+{% if beacon_node_suggested_fee_recipient is defined %}
+suggested-fee-recipient = {{ beacon_node_suggested_fee_recipient | mandatory }}
+{% endif %}
 
 ### Logs
 log-format = {{ beacon_node_log_format | to_json }}
